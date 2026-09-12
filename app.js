@@ -1,83 +1,75 @@
 const PORTFOLIO = [
   {
-    "name": "humancheck.in",
-    "category": "Identity & Trust",
-    "tag": "Featured",
-    "description": "A crisp, memorable name for identity verification, trust layers, human-in-the-loop AI, or anti-bot products.",
-    "featured": true,
-    "url": "https://www.afternic.com/domain/humancheck.in"
-  },
-  {
     "name": "agentsecurity.help",
     "category": "AI Security",
     "tag": "Featured",
-    "description": "A direct fit for agentic-AI safety, secure agents, enterprise AI governance, or security support.",
+    "description": "A direct, high-intent name for agentic AI security, safe autonomous agents, governance, monitoring, or enterprise protection.",
     "featured": true,
     "url": "https://www.afternic.com/domain/agentsecurity.help"
   },
   {
-    "name": "voicefraud.help",
-    "category": "Voice & Fraud",
+    "name": "arabicvoiceagent.com",
+    "category": "Voice & AI",
     "tag": "Featured",
-    "description": "Built for voice-fraud prevention, deepfake protection, authentication, awareness, or customer support.",
+    "description": "A clear .com built for Arabic voice agents, conversational AI, call automation, speech interfaces, or regional AI platforms.",
     "featured": true,
-    "url": "https://www.afternic.com/domain/voicefraud.help"
+    "url": "https://www.afternic.com/domain/arabicvoiceagent.com"
   },
   {
     "name": "arabicvoice.xyz",
     "category": "Voice & AI",
-    "tag": "Featured",
-    "description": "A broad, expressive name for Arabic voice AI, speech products, conversational interfaces, or creator tools.",
-    "featured": true,
+    "tag": "Selected",
+    "description": "A flexible, expressive name for Arabic voice AI, speech technology, creator tools, conversational products, or experimental platforms.",
+    "featured": false,
     "url": "https://www.afternic.com/domain/arabicvoice.xyz"
   },
   {
-    "name": "llmcheck.in",
-    "category": "AI & Evaluation",
+    "name": "citationreadiness.com",
+    "category": "AI Visibility",
     "tag": "Featured",
-    "description": "A compact name for LLM testing, evaluation, guardrails, observability, QA, or model verification.",
+    "description": "A strong .com for AI-search readiness, citation optimization, answer-engine visibility, content authority, or digital reputation services.",
     "featured": true,
-    "url": "https://www.afternic.com/domain/llmcheck.in"
+    "url": "https://www.afternic.com/domain/citationreadiness.com"
   },
   {
-    "name": "botcheck.in",
-    "category": "Identity & Trust",
+    "name": "deepfakes.help",
+    "category": "Trust & Safety",
     "tag": "Featured",
-    "description": "Short and functional for bot detection, fraud prevention, traffic integrity, or trust infrastructure.",
+    "description": "A memorable help-oriented domain for deepfake detection, victim support, awareness, verification, education, or incident response.",
     "featured": true,
-    "url": "https://www.afternic.com/domain/botcheck.in"
+    "url": "https://www.afternic.com/domain/deepfakes.help"
   },
   {
-    "name": "agentcheck.in",
-    "category": "AI & Agents",
+    "name": "hostelcheck.in",
+    "category": "Travel & Trust",
     "tag": "Selected",
-    "description": "A straightforward name for agent verification, monitoring, evaluation, compliance, or performance checks.",
+    "description": "A concise name for hostel reviews, verification, safety checks, booking confidence, traveler tools, or accommodation discovery.",
     "featured": false,
-    "url": "https://www.afternic.com/domain/agentcheck.in"
+    "url": "https://www.afternic.com/domain/hostelcheck.in"
+  },
+  {
+    "name": "promptinjection.help",
+    "category": "AI Security",
+    "tag": "Featured",
+    "description": "A precise educational and support domain for prompt-injection defense, AI security guidance, incident response, and developer resources.",
+    "featured": true,
+    "url": "https://www.afternic.com/domain/promptinjection.help"
   },
   {
     "name": "responsibleagents.org",
     "category": "Responsible AI",
     "tag": "Selected",
-    "description": "A mission-led name for responsible agentic AI, standards, research, education, or industry initiatives.",
+    "description": "A mission-led domain for responsible agentic AI, standards, research, governance, education, or industry initiatives.",
     "featured": false,
     "url": "https://www.afternic.com/domain/responsibleagents.org"
   },
   {
-    "name": "dataorig.in",
-    "category": "Data & Provenance",
-    "tag": "Selected",
-    "description": "A clever split-domain concept for data origin, provenance, traceability, authenticity, and lineage tools.",
-    "featured": false,
-    "url": "https://www.afternic.com/domain/dataorig.in"
-  },
-  {
-    "name": "choosethe.one",
-    "category": "Brandable",
-    "tag": "Selected",
-    "description": "A memorable call-to-action domain for choice, matching, discovery, premium selection, or recommendation products.",
-    "featured": false,
-    "url": "https://www.afternic.com/domain/choosethe.one"
+    "name": "voicefraud.help",
+    "category": "Voice & Fraud",
+    "tag": "Featured",
+    "description": "Built for voice-fraud prevention, impersonation defense, deepfake voice protection, authentication, awareness, or customer support.",
+    "featured": true,
+    "url": "https://www.afternic.com/domain/voicefraud.help"
   }
 ];
 
