@@ -1,0 +1,148 @@
+:root {
+  --bg:#f5f2ea;
+  --paper:#fbfaf6;
+  --white:#ffffff;
+  --ink:#101b2b;
+  --muted:#697486;
+  --gold:#b78a2d;
+  --gold-dark:#936b1d;
+  --gold-soft:#eadfc7;
+  --line:#e5dfd2;
+  --radius:26px;
+  --shadow:0 22px 60px rgba(16,27,43,.065);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 92% 2%,rgba(183,138,45,.13),transparent 24rem),
+    radial-gradient(circle at 7% 45%,rgba(16,27,43,.035),transparent 28rem),
+    var(--bg);
+  font-family:"Manrope",system-ui,sans-serif;
+  line-height:1.55;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+header{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(245,242,234,.86);
+  border-bottom:1px solid rgba(229,223,210,.9);
+}
+nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand img{width:43px;height:43px}
+.brand-name{font:600 1.24rem/1 "Sora",sans-serif;letter-spacing:-.035em}
+.brand-sub{display:block;margin-top:6px;color:var(--muted);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase}
+.navlinks{display:flex;gap:23px;color:var(--muted);font-size:.91rem}
+.navlinks a:hover{color:var(--ink)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:45px;padding:0 17px;border:1px solid var(--line);border-radius:999px;
+  background:var(--white);font-weight:700;font-size:.9rem;cursor:pointer;transition:.18s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(16,27,43,.09)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:white}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.hero{padding:74px 0 38px}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}
+.surface{
+  background:rgba(255,255,255,.83);border:1px solid var(--line);
+  border-radius:32px;box-shadow:var(--shadow)
+}
+.hero-copy{padding:42px}
+.eyebrow{
+  display:inline-flex;gap:8px;align-items:center;padding:9px 12px;border:1px solid var(--gold-soft);
+  background:#fffdfa;border-radius:999px;color:var(--gold-dark);
+  font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+h1,h2,h3{font-family:"Sora",sans-serif}
+h1{
+  max-width:12ch;margin:22px 0 17px;
+  font-size:clamp(3.2rem,7vw,5.8rem);line-height:.94;letter-spacing:-.06em
+}
+.lead{max-width:62ch;margin:0;color:var(--muted);font-size:1.08rem}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:29px}
+.proof span{padding:9px 11px;border:1px solid var(--line);background:#fff;border-radius:999px;color:var(--muted);font-size:.84rem}
+.identity{padding:34px;display:flex;min-height:100%;align-items:center;justify-content:center;text-align:center}
+.identity img{width:min(215px,52vw);display:block;margin:0 auto 20px}
+.identity-name{font:600 clamp(2.4rem,5vw,4.2rem)/1 "Sora",sans-serif;letter-spacing:-.055em}
+.identity-sub{margin-top:12px;color:var(--gold-dark);font-size:.78rem;letter-spacing:.3em;text-transform:uppercase}
+.identity-micro{margin-top:22px;color:var(--muted);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase}
+section{padding:38px 0}
+.section-head{display:flex;justify-content:space-between;gap:28px;align-items:flex-end;margin-bottom:20px}
+.kicker{color:var(--gold-dark);font-size:.74rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;margin-bottom:9px}
+h2{margin:0;font-size:clamp(2rem,4vw,3.25rem);line-height:1.02;letter-spacing:-.045em}
+.section-head p{max-width:54ch;margin:0;color:var(--muted)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{
+  background:rgba(255,255,255,.87);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:0 10px 36px rgba(16,27,43,.035)
+}
+.index{color:var(--gold);font-size:.73rem;letter-spacing:.15em;font-weight:700;text-transform:uppercase}
+.card h3{margin:10px 0 8px;font-size:1.08rem;letter-spacing:-.025em}
+.card p{margin:0;color:var(--muted);font-size:.94rem}
+.spirit{display:grid;grid-template-columns:1.05fr .95fr;gap:14px}
+.manifesto{font-size:clamp(1.3rem,2.3vw,1.8rem);line-height:1.34;letter-spacing:-.025em;color:var(--ink);margin:18px 0}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+.principle{border-top:1px solid var(--line);padding-top:13px}
+.principle b{display:block;margin-bottom:4px}
+.principle span{color:var(--muted);font-size:.88rem}
+.portfolio{
+  background:rgba(255,255,255,.91);border:1px solid var(--line);border-radius:32px;
+  padding:30px;box-shadow:var(--shadow)
+}
+.portfolio-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.portfolio-head p{max-width:63ch;color:var(--muted);margin:13px 0 0}
+.portfolio-badge{padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font-size:.84rem;color:var(--muted);white-space:nowrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:23px 0 18px}
+.filter{
+  border:1px solid var(--line);background:var(--paper);color:var(--muted);
+  border-radius:999px;padding:9px 12px;cursor:pointer;font-weight:600;font-size:.84rem
+}
+.filter.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.domain{
+  position:relative;display:flex;flex-direction:column;min-height:260px;
+  border:1px solid var(--line);border-radius:22px;padding:20px;background:#fff;transition:.18s ease
+}
+.domain:hover{transform:translateY(-3px);box-shadow:0 14px 38px rgba(16,27,43,.07)}
+.domain.featured::before{
+  content:"Featured";position:absolute;right:16px;top:16px;
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold-dark);
+  background:#fff9e9;border:1px solid #ead9af;padding:6px 8px;border-radius:999px
+}
+.domain-cat{color:var(--gold-dark);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding-right:75px}
+.domain-name{font:600 1.3rem/1.18 "Sora",sans-serif;letter-spacing:-.035em;margin:13px 0 10px;word-break:break-word}
+.domain-desc{color:var(--muted);font-size:.91rem;flex:1}
+.domain-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
+.make-offer{font-weight:700;font-size:.88rem}
+.buy{padding:9px 12px;min-height:auto;font-size:.79rem}
+.process{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cta{
+  padding:42px 28px;text-align:center;margin-top:15px;
+  background:radial-gradient(circle at 80% 0%,rgba(183,138,45,.13),transparent 18rem),rgba(255,255,255,.88);
+  border:1px solid var(--line);border-radius:32px;box-shadow:var(--shadow)
+}
+.cta p{max-width:58ch;margin:12px auto 24px;color:var(--muted)}
+footer{padding:28px 0 45px;color:var(--muted);font-size:.85rem}
+.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px}
+@media(max-width:980px){
+  .hero-grid,.spirit,.grid3,.domain-grid,.process,.principles{grid-template-columns:1fr}
+  .section-head,.portfolio-head{display:block}
+  .section-head p{margin-top:13px}
+  .portfolio-badge{display:inline-flex;margin-top:16px}
+  .domain{min-height:auto}
+}
+@media(max-width:800px){
+  .navlinks{display:none}
+  .hero{padding-top:42px}
+  .hero-copy,.identity,.portfolio,.card,.cta{padding:23px}
+  h1{max-width:none}
+  .brand-sub{display:none}
+}
