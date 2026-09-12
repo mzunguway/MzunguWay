@@ -29,14 +29,12 @@ button{font:inherit}
 header{
   position:sticky;top:0;z-index:50;
   backdrop-filter:blur(14px);
-  background:rgba(245,242,234,.86);
+  background:rgba(245,242,234,.90);
   border-bottom:1px solid rgba(229,223,210,.9);
 }
-nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:13px}
-.brand img{width:43px;height:43px}
-.brand-name{font:600 1.24rem/1 "Sora",sans-serif;letter-spacing:-.035em}
-.brand-sub{display:block;margin-top:6px;color:var(--muted);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase}
+nav{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;min-width:220px}
+.brand img{display:block;width:235px;max-width:30vw;height:auto}
 .navlinks{display:flex;gap:23px;color:var(--muted);font-size:.91rem}
 .navlinks a:hover{color:var(--ink)}
 .btn{
@@ -50,7 +48,7 @@ nav{min-height:78px;display:flex;align-items:center;justify-content:space-betwee
 .hero{padding:74px 0 38px}
 .hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}
 .surface{
-  background:rgba(255,255,255,.83);border:1px solid var(--line);
+  background:rgba(255,255,255,.88);border:1px solid var(--line);
   border-radius:32px;box-shadow:var(--shadow)
 }
 .hero-copy{padding:42px}
@@ -69,11 +67,13 @@ h1{
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
 .proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:29px}
 .proof span{padding:9px 11px;border:1px solid var(--line);background:#fff;border-radius:999px;color:var(--muted);font-size:.84rem}
-.identity{padding:34px;display:flex;min-height:100%;align-items:center;justify-content:center;text-align:center}
-.identity img{width:min(215px,52vw);display:block;margin:0 auto 20px}
-.identity-name{font:600 clamp(2.4rem,5vw,4.2rem)/1 "Sora",sans-serif;letter-spacing:-.055em}
-.identity-sub{margin-top:12px;color:var(--gold-dark);font-size:.78rem;letter-spacing:.3em;text-transform:uppercase}
-.identity-micro{margin-top:22px;color:var(--muted);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase}
+.identity{
+  padding:34px;display:flex;min-height:100%;align-items:center;justify-content:center;text-align:center;
+  background:#fff;
+}
+.identity-lockup{
+  display:block;width:min(520px,92%);height:auto;margin:auto;
+}
 section{padding:38px 0}
 .section-head{display:flex;justify-content:space-between;gap:28px;align-items:flex-end;margin-bottom:20px}
 .kicker{color:var(--gold-dark);font-size:.74rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;margin-bottom:9px}
@@ -168,11 +168,15 @@ footer{padding:28px 0 45px;color:var(--muted);font-size:.85rem}
   .section-head p{margin-top:13px}
   .portfolio-badge{display:inline-flex;margin-top:16px}
   .domain{min-height:auto}
+  .brand img{width:210px;max-width:42vw}
 }
 @media(max-width:800px){
   .navlinks{display:none}
+  nav{min-height:72px}
   .hero{padding-top:42px}
   .hero-copy,.identity,.portfolio,.card,.cta{padding:23px}
   h1{max-width:none}
-  .brand-sub{display:none}
+  .brand{min-width:0}
+  .brand img{width:190px;max-width:52vw}
+  .identity-lockup{width:min(470px,96%)}
 }
