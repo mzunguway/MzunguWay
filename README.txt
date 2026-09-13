@@ -1,51 +1,47 @@
-MZUNGUWAY V5 — CURATED PORTFOLIO
+MZUNGUWAY V7 — CURATED DOMAIN STOREFRONT
 
-FILES
-- index.html
-- logo.svg
-- favicon.svg
-- CNAME
-- README.txt
+POSITIONING
+MzunguWay is a curated Domain Naming Studio. The website presents each domain as a credible business opportunity and routes the final acquisition through Afternic.
 
-WHAT IS NEW
-- MzunguWay identity fully integrated.
-- Modern Sora + Manrope typography.
-- Real portfolio section pre-populated with the domain shortlist worked on for MzunguWay.
-- Interactive filters.
-- Featured domains.
-- Strategic micro-positioning for every name.
-- "Make Offer" positioning instead of invented prices.
-- Acquisition buttons currently use the standard Afternic domain route.
+PRICING POLICY
+- No acquisition price is displayed on MzunguWay.com.
+- Current terms are discovered on each domain's official Afternic listing.
+- Visitors can also open a pre-filled email to submit a private offer.
 
-IMPORTANT BEFORE PUBLISHING
-Open index.html and search for:
-const PORTFOLIO =
+V7 FEATURES
+- Exact MzunguWay V6 logo assets and Sora + Manrope typography retained.
+- Clear Afternic acquisition buttons on every card and detail page.
+- Clickable, domain-specific private-offer messages.
+- Eight shareable and indexable individual domain pages.
+- Business concepts, buyer profiles and illustrative workflows.
+- Trust strip, acquisition explanation and FAQ.
+- Working mobile navigation with keyboard support.
+- Open Graph and Twitter social-preview metadata.
+- Organization, Website, ItemList, FAQ and WebPage structured data.
+- robots.txt and sitemap.xml for search-engine discovery.
+- Branded 404 page for broken or outdated links.
+- Accessible controls, focus states and reduced-motion support.
 
-Review the names. If any were only candidates and were NOT actually purchased, delete that whole object.
-If your live Afternic/GoDaddy landing page uses a different URL, replace the "url" value for that domain.
+PORTFOLIO
+- agentsecurity.help
+- arabicvoiceagent.com
+- arabicvoice.xyz
+- citationreadiness.com
+- deepfakes.help
+- promptinjection.help
+- responsibleagents.org
+- voicefraud.help
 
-HOW TO UPDATE GITHUB
-1. Download and unzip this package.
-2. Open your GitHub repository for MzunguWay.
-3. Upload/replace:
-   - index.html
-   - logo.svg
-   - favicon.svg
-   - CNAME
-4. Commit changes.
-5. GitHub Pages will redeploy automatically if already configured.
+CORE FILES
+- index.html: homepage and acquisition FAQ.
+- app.js: portfolio data, filters, offer links and mobile navigation.
+- styles.css: shared responsive visual system.
+- domains/*/index.html: individual domain pages.
+- og-card.png: social-sharing image.
+- robots.txt and sitemap.xml: discovery files.
+- 404.html: branded not-found route.
 
-FIRST-TIME GITHUB PAGES
-Settings > Pages > Deploy from a branch
-Branch: main
-Folder: /(root)
-Custom domain: mzunguway.com
-
-SPACESHIP DNS IF NOT ALREADY CONFIGURED
-A @ 185.199.108.153
-A @ 185.199.109.153
-A @ 185.199.110.153
-A @ 185.199.111.153
-CNAME www YOUR_GITHUB_USERNAME.github.io
-
-Then enable Enforce HTTPS in GitHub Pages once available.
+MAINTENANCE
+- Run python3 scripts/generate_domain_pages.py after changing detail-page data.
+- Run python3 scripts/generate_og_card.py after changing the social card.
+- Always verify availability and the active listing directly on Afternic.
