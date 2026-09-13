@@ -851,6 +851,45 @@ footer { padding: 28px 0 45px; color: var(--muted); font-size: .82rem; }
 
 .foot a:hover { color: var(--ink); }
 
+/* Original asset is unchanged. This window crops whitespace, not logo pixels. */
+.brand-window { display: block; position: relative; width: 230px; height: 58px; overflow: hidden; }
+.brand .brand-window img { position: absolute; width: 361px; max-width: none; height: auto; left: -67px; top: -139px; }
+.identity .original-lockup { width: 100%; max-width: 600px; height: auto; object-fit: contain; }
+.featured-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card-usecase { color: var(--ink); font-size: .9rem; margin: 16px 0; }
+.card-usecase strong { display: block; color: var(--gold-dark); text-transform: uppercase; letter-spacing: .12em; font-size: .65rem; margin-bottom: 6px; }
+.card-concept { font-size: .83rem; color: var(--muted); }
+.card-concept summary { cursor: pointer; color: var(--ink); padding: 10px 0; font-weight: 700; }
+.domain-actions .detail-actions { margin: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.domain[hidden], [hidden] { display: none !important; }
+.process { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.opportunity-tagline { font: 500 clamp(1.2rem, 2vw, 1.7rem)/1.4 Sora, sans-serif; margin: 22px 0; }
+.commercial-reasons { color: var(--muted); padding-left: 20px; }
+.commercial-reasons li + li { margin-top: 14px; }
+.concept-preview { margin: 25px 0 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--paper); }
+.concept-chrome { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid var(--line); font-size: .7rem; color: var(--muted); }
+.concept-canvas { padding: 25px; background: var(--ink); color: white; }
+.concept-canvas .concept-name { margin: 0 0 24px; color: var(--gold-soft); font-size: .7rem; letter-spacing: .08em; overflow-wrap: anywhere; }
+.concept-canvas h3 { font: 500 1.55rem/1.35 Sora, sans-serif; }
+.concept-steps { list-style: none; padding: 0; margin: 25px 0 0; display: grid; gap: 10px; }
+.concept-steps li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #364151; font-size: .8rem; }
+.concept-number { color: var(--gold-soft); font-size: .65rem; }
+.concept-preview figcaption { padding: 12px 15px; color: var(--muted); font-size: .7rem; line-height: 1.5; }
+.related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
+.related-grid strong { display: block; overflow-wrap: anywhere; }
+.related-grid p { font-size: .85rem; }
+.mobile-acquire { display: none; }
+.domain-closing .btn.primary { background: var(--gold-soft); color: var(--ink); border-color: var(--gold-soft); }
+@media (max-width: 620px) {
+  .featured-grid, .related-grid { grid-template-columns: 1fr; }
+  .identity { min-height: 0 !important; }
+  .concept-canvas { padding: 20px; }
+  body:has(.mobile-acquire) { padding-bottom: 88px; }
+  .mobile-acquire { display: block; position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; padding: 10px 13px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--paper); }
+  .mobile-acquire .detail-actions { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mobile-acquire .btn { font-size: .75rem; padding-inline: 8px; }
+}
+
 /* Individual domain pages */
 .detail-main { min-height: 70vh; }
 

@@ -34,7 +34,7 @@ DOMAINS = [
         "category": "Voice & AI",
         "description": "A clear .com for Arabic voice agents, conversational AI, call automation, customer service and regional voice products.",
         "concept": "Arabic Voice Agent Platform for Customer Operations",
-        "opportunity": "The name combines a major language market, a fast-growing interface and an exact product category. It is easy for buyers, partners and customers to understand before they see the product.",
+        "opportunity": "The name combines a language, an interface and an explicit product category. Its .com ending gives a commercial platform a familiar address, and the words explain the focus before a visitor sees the product.",
         "problem": "Businesses across Arabic-speaking markets need voice automation that can handle real customer conversations, local language variants, business terminology and workflows such as booking, support, collections and lead qualification.",
         "product": "A SaaS platform where a company creates an Arabic-speaking voice agent, chooses the target locale and voice, connects telephony and CRM systems, defines business rules and deploys the agent to handle inbound or outbound calls.",
         "workflow": [
@@ -163,6 +163,43 @@ DOMAINS = [
     },
 ]
 
+DOMAINS.extend([
+    dict(name="dataorig.in", slug="dataorig-in", category="Data & Provenance",
+         description="A compact data-origin identity for dataset provenance, lineage and traceability.",
+         concept="Data Provenance & Lineage Layer",
+         opportunity="Read across the dot, dataorig.in suggests data origin. It gives provenance a compact identity, while the .in ending requires explaining the domain hack when spoken.",
+         problem="Data teams need to understand where a dataset came from, what changed and which usage permissions are recorded.",
+         product="A provenance workspace connecting source records, transformation histories and permission documentation before a dataset is used in analytics or AI.",
+         workflow=["Register a dataset and its source.", "Document permissions and transformations.", "Trace lineage back to the source.", "Export an evidence record for review."],
+         fits=["Data-governance vendors", "Lineage platforms", "AI-data startups", "Dataset marketplaces"], afternic=None),
+    dict(name="choosethe.one", slug="choosethe-one", category="Brandable",
+         description="A memorable call-to-action name for curated recommendations, matching and confident choices.",
+         concept="Curated Recommendation & Matching Platform",
+         opportunity="The words and extension form one complete invitation: choose the one. It is easy to remember and flexible enough for a focused recommendation brand.",
+         problem="Buyers faced with too many similar options need a shortlist grounded in their own requirements.",
+         product="A curated recommendation service that gathers a customer's priorities, explains a small set of matches and helps them choose a product or service.",
+         workflow=["Define the customer's priorities.", "Create a relevant shortlist.", "Explain each match and its trade-offs.", "Help the customer choose."],
+         fits=["Recommendation startups", "Recruitment platforms", "Curated commerce", "Matching services"],
+         afternic="https://www.afternic.com/domain/choosethe.one"),
+])
+
+# Editorial positioning lives alongside the inventory: no runtime portfolio copy.
+POSITIONING = {
+ "agentsecurity.help": ("A clear home for safer AI agents.", ["Security knowledge base", "Permissions reviews", "Incident documentation", "Developer resources"], ["Tool access and permissions need understandable controls.", "A dedicated support destination can complement an existing security product."], ["Review permissions", "Map tool access", "Document incidents"]),
+ "arabicvoiceagent.com": ("An explicit name for Arabic conversational AI.", ["Contact centers", "Banking", "Healthcare", "Hospitality", "Telecom"], ["Language and product category are clear in the name.", "Bookings and support provide concrete workflows to design around.", "Regional language testing and human handoff can become product differentiators."], ["Choose a locale", "Connect a workflow", "Plan human handoff"]),
+ "arabicvoice.xyz": ("A place to explore the possibilities of Arabic speech.", ["Speech APIs", "Voice model demos", "Creator tools", "Developer benchmarks"], ["Speech recognition and synthesis share a coherent brand umbrella.", "A focused playground could help developers evaluate integration choices."], ["Speech to text", "Text to speech", "Compare outputs"]),
+ "citationreadiness.com": ("Is your brand ready to be cited by AI?", ["Content audits", "Source reviews", "Structured-data checks", "Agency reporting"], ["Clear sourcing and structure give teams actionable audit criteria.", "Agencies could package readiness reviews as a repeatable service.", "Readiness does not guarantee indexing, ranking or AI citations."], ["Review sources", "Clarify entities", "Prioritize improvements"]),
+ "deepfakes.help": ("Is this video real? Start with the right questions.", ["Evidence preservation", "Verification guidance", "Reporting resources", "Victim support"], ["People facing suspected synthetic media need a clear next step.", "Verification guidance and incident support can serve different audiences.", "Authenticity assessment must communicate uncertainty, not absolute detection claims."], ["Preserve", "Assess", "Learn", "Report"]),
+ "promptinjection.help": ("Practical guidance at the boundary of trust.", ["Defense knowledge base", "Red-team resources", "Mitigation library", "Developer education"], ["The name matches a specific problem developers can recognize.", "Defensive examples and mitigation guidance can support a security platform."], ["Identify untrusted input", "Review boundaries", "Document mitigations"]),
+ "responsibleagents.org": ("A shared home for responsible AI agents.", ["Governance research", "Policy templates", "Industry collaboration", "Nonprofit initiatives"], ["The .org ending suits an initiative with a public-interest mission.", "Governance templates and research can bring multiple disciplines together.", "The domain itself confers no standards authority or certification."], ["Principles", "Research", "Deployment guidance"]),
+ "voicefraud.help": ("Think before you trust the voice.", ["Scam education", "Independent verification", "Fraud reporting", "Customer protection"], ["The name connects a recognizable risk with practical assistance.", "A bank or telecom could use it as a focused customer-education destination."], ["Pause", "Verify independently", "Preserve evidence", "Report"]),
+ "dataorig.in": ("Every dataset has a story. Make its origin traceable.", ["Data lineage", "Provenance records", "Permission documentation", "Dataset reviews"], ["Source and transformation records support informed data-use decisions.", "The concept fits a standalone workspace or an existing governance suite."], ["Source", "Transformations", "Permissions"]),
+ "choosethe.one": ("From endless options to one considered choice.", ["Curated commerce", "Matching services", "Recommendation tools", "Recruitment"], ["The complete phrase gives a product a natural call to action.", "A focused niche can make recommendations more useful than a general catalog."], ["Your priorities", "A considered shortlist", "Your choice"]),
+}
+for domain in DOMAINS:
+    domain["tagline"], domain["uses"], domain["reasons"], domain["preview"] = POSITIONING[domain["name"]]
+    domain["featured"] = domain["name"] in {"arabicvoiceagent.com", "agentsecurity.help", "citationreadiness.com", "deepfakes.help"}
+
 
 def esc(value: str) -> str:
     return html.escape(value, quote=True)
@@ -230,6 +267,42 @@ def page_schema(domain: dict[str, object]) -> str:
     return json.dumps(schema, ensure_ascii=False, separators=(",", ":")).replace("</", r"<\/")
 
 
+def actions(domain):
+    marketplace = domain['afternic']
+    href = marketplace or offer_url(domain['name'])
+    attrs = ' target="_blank" rel="noopener noreferrer"' if marketplace else ''
+    label = 'Acquire Domain' if marketplace else 'Discuss Acquisition'
+    return f'<div class="detail-actions"><a class="btn primary" href="{esc(href)}"{attrs}>{label}</a><a class="btn" href="{esc(offer_url(domain["name"]))}">Make an Offer</a></div>'
+
+
+def route_note(domain):
+    if domain['afternic']:
+        return 'Acquisition opens the existing Afternic listing. Confirm availability, pricing and any payment options there before proceeding. MzunguWay is not an official marketplace partner.'
+    return 'Private enquiry only. Confirm current availability, registrar eligibility, transaction method and transfer terms before any payment.'
+
+
+def mockup(domain):
+    steps = ''.join(f'<li><span class="concept-number">0{i + 1}</span><span>{esc(step)}</span></li>' for i, step in enumerate(domain['preview']))
+    return f'<figure class="concept-preview"><div class="concept-chrome"><span aria-hidden="true">○ ○ ○</span><span>Brand concept</span></div><div class="concept-canvas"><p class="concept-name">{esc(domain["name"])}</p><h3>{esc(domain["tagline"])}</h3><ol class="concept-steps">{steps}</ol></div><figcaption>Illustrative concept only — not a working product. The domain name is the asset offered.</figcaption></figure>'
+
+
+def card(domain, featured=False):
+    url = f'/domains/{domain["slug"]}/'
+    return f'''<article class="domain" data-category="{esc(domain['category'])}" data-featured="{str(domain['featured']).lower()}">
+      <div class="domain-cat">{esc(domain['category'])}</div>
+      <h3 class="domain-name"><a href="{url}">{esc(domain['name'])}</a></h3>
+      <p class="domain-desc">{esc(domain['tagline'])}</p>
+      <p class="card-usecase"><strong>Build on this name</strong>{esc(domain['concept'])}</p>
+      <details class="card-concept"><summary>Preview the business concept</summary><p>{esc(domain['product'])}</p><p><strong>Ideal for:</strong> {esc(' · '.join(domain['fits']))}</p></details>
+      <div class="domain-actions"><a class="btn" href="{url}">View Opportunity <span aria-hidden="true">→</span></a>{actions(domain)}</div>
+    </article>'''
+
+
+def related(domain):
+    candidates = sorted((d for d in DOMAINS if d != domain), key=lambda d: d['category'] != domain['category'])[:3]
+    return ''.join(f'<a class="card" href="/domains/{d["slug"]}/"><span class="kicker">{esc(d["category"])}</span><strong>{esc(d["name"])}</strong><p>{esc(d["tagline"])}</p></a>' for d in candidates)
+
+
 def render(domain: dict[str, object]) -> str:
     name = str(domain["name"])
     slug = str(domain["slug"])
@@ -239,7 +312,8 @@ def render(domain: dict[str, object]) -> str:
     opportunity = str(domain["opportunity"])
     problem = str(domain["problem"])
     product = str(domain["product"])
-    afternic = str(domain["afternic"])
+    afternic = domain["afternic"] or offer_url(name)
+    transaction = "Afternic marketplace" if domain["afternic"] else "Private enquiry — confirm eligibility and transfer terms"
     workflow = list(domain["workflow"])
     fits = list(domain["fits"])
     url = f"https://mzunguway.com/domains/{slug}/"
@@ -252,7 +326,7 @@ def render(domain: dict[str, object]) -> str:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{esc(name)} — Acquisition &amp; Business Concept | MzunguWay</title>
+  <title>{esc(name)} for Sale | {esc(category)} Opportunity — MzunguWay</title>
   <meta name="description" content="{esc(description)}">
   <meta name="theme-color" content="#F5F2EA">
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -286,7 +360,7 @@ def render(domain: dict[str, object]) -> str:
     <div class="wrap">
       <nav class="navbar" aria-label="Primary navigation">
         <a class="brand" href="/#top" aria-label="MzunguWay home">
-          <img src="/brand-wordmark.svg?v=7" alt="MzunguWay — Domain Naming Studio" width="1015" height="290">
+          <span class="brand-window"><img src="/assets/mzunguway-original.jpg" alt="MzunguWay — Domain Naming Studio" width="1448" height="1086"></span>
         </a>
         <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Open navigation menu">
           <span></span><span></span><span></span>
@@ -321,12 +395,10 @@ def render(domain: dict[str, object]) -> str:
             <span class="status-chip">Listed for acquisition</span>
           </div>
           <h1 class="domain-display">{esc(name)}</h1>
+          <p class="opportunity-tagline">{esc(domain['tagline'])}</p>
           <p class="domain-page-desc">{esc(description)}</p>
-          <div class="detail-actions">
-            <a class="btn primary" href="{esc(afternic)}" target="_blank" rel="noopener noreferrer">View acquisition options on Afternic <span aria-hidden="true">↗</span></a>
-            <a class="btn" href="{esc(offer_url(name))}">Make a private offer</a>
-          </div>
-          <p class="market-note">Current terms and transaction details are displayed directly on Afternic. MzunguWay does not publish prices on this website.</p>
+          {actions(domain)}
+          <p class="market-note">{route_note(domain)}</p>
         </div>
 
         <aside class="domain-page-aside" aria-labelledby="identity-title">
@@ -337,7 +409,7 @@ def render(domain: dict[str, object]) -> str:
               <div class="fact"><dt>Category</dt><dd>{esc(category)}</dd></div>
               <div class="fact"><dt>Extension</dt><dd>{esc(extension)}</dd></div>
               <div class="fact"><dt>Asset</dt><dd>Domain name only</dd></div>
-              <div class="fact"><dt>Transaction</dt><dd>Afternic marketplace</dd></div>
+              <div class="fact"><dt>Transaction</dt><dd>{esc(transaction)}</dd></div>
             </dl>
           </div>
           <p class="aside-disclaimer">Concepts are illustrative positioning ideas. No operating business, website, traffic, trademark or content is included unless separately agreed in writing.</p>
@@ -350,27 +422,37 @@ def render(domain: dict[str, object]) -> str:
         <div class="detail-content-grid">
           <div class="detail-stack">
             <article class="detail-section">
-              <div class="kicker">Why this name</div>
+              <div class="kicker">Why this domain</div>
               <h2>The opportunity</h2>
               <p>{esc(opportunity)}</p>
             </article>
             <article class="detail-section">
-              <div class="kicker">Best fit</div>
+              <div class="kicker">Ideal for</div>
               <h2>Who could build on it</h2>
               <div class="fit-tags">
 {fit_html}
               </div>
             </article>
+            <article class="detail-section">
+              <div class="kicker">Built for</div><h2>Choose a focused use case.</h2>
+              <div class="fit-tags">{''.join('<span>' + esc(x) + '</span>' for x in domain['uses'])}</div>
+            </article>
+            <article class="detail-section">
+              <div class="kicker">Why it matters</div><h2>A practical commercial angle.</h2>
+              <ul class="commercial-reasons">{''.join('<li>' + esc(x) + '</li>' for x in domain['reasons'])}</ul>
+            </article>
           </div>
 
           <div class="detail-stack">
             <article class="detail-section">
-              <div class="kicker">Real-world concept</div>
+              <div class="kicker">Imagine</div>
               <h2>{esc(concept)}</h2>
               <h3>The problem</h3>
               <p>{esc(problem)}</p>
-              <h3 class="section-subhead">The product angle</h3>
-              <p>{esc(product)}</p>
+              <h3 class="section-subhead">What someone could build</h3>
+              <p>Imagine {esc(product[0].lower() + product[1:])}</p>
+              {mockup(domain)}
+              {actions(domain)}
             </article>
             <article class="detail-section">
               <div class="kicker">Illustrative workflow</div>
@@ -385,18 +467,18 @@ def render(domain: dict[str, object]) -> str:
         <div class="domain-closing">
           <div>
             <h2>Could this be your next identity?</h2>
-            <p>Review the official listing on Afternic or start a focused private conversation with the domain already identified.</p>
+            <p>{route_note(domain)}</p>
           </div>
-          <div class="detail-actions">
-            <a class="btn gold" href="{esc(afternic)}" target="_blank" rel="noopener noreferrer">Continue to Afternic <span aria-hidden="true">↗</span></a>
-            <a class="btn" href="{esc(offer_url(name))}">Private offer</a>
-          </div>
+          {actions(domain)}
         </div>
+
+        <section class="related-opportunities" aria-label="Related opportunities"><div class="kicker">Explore another direction</div><h2>Related opportunities</h2><div class="related-grid">{related(domain)}</div></section>
 
         <a class="text-link back-link" href="/#domains"><span aria-hidden="true">←</span> Return to all domains</a>
       </div>
     </section>
   </main>
+  <div class="mobile-acquire" aria-label="Acquisition shortcuts">{actions(domain)}</div>
 
   <footer>
     <div class="wrap foot">
@@ -415,7 +497,15 @@ def main() -> None:
     for domain in DOMAINS:
         output_dir = ROOT / "domains" / str(domain["slug"])
         output_dir.mkdir(parents=True, exist_ok=True)
-        (output_dir / "index.html").write_text(render(domain), encoding="utf-8")
+        (output_dir / "index.html").write_text(render(domain).replace('?v=7', '?v=10'), encoding="utf-8")
+    template = (ROOT / "templates/home.html").read_text(encoding="utf-8")
+    cards = '\n'.join(card(d) for d in DOMAINS)
+    featured = '\n'.join(card(d, True) for d in DOMAINS if d['featured'])
+    items = [{"@type": "ListItem", "position": i + 1, "url": f"https://mzunguway.com/domains/{d['slug']}/", "name": d['name']} for i, d in enumerate(DOMAINS)]
+    template = template.replace('@@PORTFOLIO@@', cards).replace('@@FEATURED@@', featured).replace('@@ITEMS@@', json.dumps(items)).replace('@@COUNT@@', str(len(DOMAINS))).replace('?v=9', '?v=10')
+    (ROOT / 'index.html').write_text(template, encoding='utf-8')
+    urls = ['https://mzunguway.com/'] + [f"https://mzunguway.com/domains/{d['slug']}/" for d in DOMAINS]
+    (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(f'<url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n', encoding='utf-8')
 
 
 if __name__ == "__main__":
