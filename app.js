@@ -86,6 +86,28 @@ const PORTFOLIO = [
     idealFor: "Banks · Telecom operators · Fraud-prevention firms · Identity vendors · Insurers",
     featured: true,
     url: "https://www.afternic.com/domain/voicefraud.help"
+  },
+  {
+    name: "dataorig.in",
+    slug: "dataorig-in",
+    category: "Data & Provenance",
+    description: "A compact domain hack that reads as ‘data origin’, suited to provenance, lineage, traceability and AI-data authenticity.",
+    useCaseTitle: "Data Provenance & Lineage Verification Layer",
+    concept: "A platform that records where a dataset came from, how it changed, what permissions apply and whether its origin can be trusted before analytics or AI use.",
+    idealFor: "Data-governance vendors · Lineage platforms · AI provenance startups · Dataset marketplaces",
+    featured: true,
+    url: null
+  },
+  {
+    name: "choosethe.one",
+    slug: "choosethe-one",
+    category: "Brandable",
+    description: "A memorable call-to-action domain for recommendation engines, matching platforms, premium curation and confident decision products.",
+    useCaseTitle: "Curated Recommendation & Matching Platform",
+    concept: "A product that reduces a crowded market to a small set of strong matches, then guides the user toward one confident final choice.",
+    idealFor: "Recommendation engines · Matching platforms · Premium marketplaces · Recruitment · Curated commerce",
+    featured: false,
+    url: "https://www.afternic.com/domain/choosethe.one"
   }
 ];
 
@@ -190,13 +212,17 @@ if (grid && filters) {
     list.forEach(function (item) {
       const article = document.createElement("article");
       const panelId = "usecase-" + item.slug;
+      const acquisitionHref = item.url || privateOfferUrl(item.name);
+      const acquisitionLabel = item.url ? "View acquisition options" : "Request acquisition route";
+      const targetAttrs = item.url ? ' target="_blank" rel="noopener noreferrer"' : '';
+      const statusLabel = item.url ? "Listed" : "Private enquiry";
       article.className = "domain";
       article.id = item.slug;
 
       article.innerHTML =
         '<div class="domain-topline">' +
           '<div class="domain-cat">' + item.category + '</div>' +
-          '<span class="status-chip">Listed</span>' +
+          '<span class="status-chip">' + statusLabel + '</span>' +
         '</div>' +
         '<h3 class="domain-name"><a href="/domains/' + item.slug + '/">' + item.name + '</a></h3>' +
         '<div class="domain-desc">' + item.description + '</div>' +
@@ -210,7 +236,7 @@ if (grid && filters) {
           '<div class="ideal-for"><strong>Best fit</strong><span>' + item.idealFor + '</span></div>' +
         '</div>' +
         '<div class="domain-actions">' +
-          '<a class="btn marketplace" href="' + item.url + '" target="_blank" rel="noopener noreferrer" aria-label="View acquisition options for ' + item.name + ' on Afternic">View acquisition options <span aria-hidden="true">↗</span></a>' +
+          '<a class="btn marketplace" href="' + acquisitionHref + '"' + targetAttrs + ' aria-label="' + acquisitionLabel + ' for ' + item.name + '">' + acquisitionLabel + (item.url ? ' <span aria-hidden="true">↗</span>' : '') + '</a>' +
           '<div class="domain-secondary">' +
             '<a href="' + privateOfferUrl(item.name) + '">Make a private offer</a>' +
             '<a href="/domains/' + item.slug + '/">Full concept <span aria-hidden="true">→</span></a>' +
