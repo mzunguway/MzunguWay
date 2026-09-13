@@ -3,8 +3,8 @@ import json
 import unittest
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
-from urllib.parse import urlsplit, unquote
-from generate_domain_pages import DOMAINS, ROOT, render
+from urllib.parse import urlsplit, unquote, parse_qs
+from generate_domain_pages import ASSET_VERSION, BUNDLES, DOMAINS, ROOT, bundle_offer_url, render
 
 
 class Page(HTMLParser):
@@ -21,18 +21,21 @@ class SiteTests(unittest.TestCase):
     def test_inventory_and_routes(self):
         expected = {'agentsecurity.help', 'arabicvoiceagent.com', 'arabicvoice.xyz',
                     'citationreadiness.com', 'deepfakes.help', 'promptinjection.help',
-                    'responsibleagents.org', 'voicefraud.help', 'dataorig.in', 'choosethe.one'}
+                    'responsibleagents.org', 'voicefraud.help', 'perfum.world',
+                    'agentpaymentid.com', 'agentpaymentrisk.com'}
         self.assertEqual({d['name'] for d in DOMAINS}, expected)
-        self.assertEqual(len(DOMAINS), 10)
+        self.assertEqual(len(DOMAINS), 11)
+        private_enquiries = {'perfum.world', 'agentpaymentid.com', 'agentpaymentrisk.com'}
         for d in DOMAINS:
-            self.assertEqual(d['afternic'], None if d['name'] == 'dataorig.in' else f"https://www.afternic.com/domain/{d['name']}")
+            self.assertEqual(d['afternic'], None if d['name'] in private_enquiries else f"https://www.afternic.com/domain/{d['name']}")
+        self.assertEqual({p.parent.name for p in ROOT.glob('domains/*/index.html')}, {d['slug'] for d in DOMAINS})
 
     def test_pages_metadata_links_and_concepts(self):
         descriptions = set()
         for d in DOMAINS:
             path = ROOT / 'domains' / d['slug'] / 'index.html'
             source = path.read_text()
-            self.assertEqual(source, render(d).replace('?v=7', '?v=10'))
+            self.assertEqual(source, render(d).replace('?v=7', f'?v={ASSET_VERSION}'))
             page = Page(source)
             self.assertEqual(sum(tag == 'h1' for tag, attrs in page.tags), 1)
             meta = {a.get('name', a.get('property')): a.get('content') for t, a in page.tags if t == 'meta'}
@@ -44,7 +47,7 @@ class SiteTests(unittest.TestCase):
             for label in ['Why this domain', 'Built for', 'Imagine', 'Ideal for', 'Why it matters', 'Illustrative concept only']:
                 self.assertIn(label, source)
             self.assertEqual(source.count('>Make an Offer</a>'), 4)
-        self.assertEqual(len(descriptions), 10)
+        self.assertEqual(len(descriptions), 11)
         for path in [ROOT / 'index.html', *ROOT.glob('domains/*/index.html')]:
             source = path.read_text()
             self.assertNotIn('@@', source)
@@ -63,9 +66,38 @@ class SiteTests(unittest.TestCase):
     def test_home_and_sitemap(self):
         source = (ROOT / 'index.html').read_text()
         cards = [a for t, a in Page(source).tags if t == 'article' and 'data-category' in a]
-        self.assertEqual(len(cards), 14)  # ten holdings plus four featured cards
-        self.assertEqual(len(ET.parse(ROOT / 'sitemap.xml').getroot()), 11)
+        self.assertEqual(len(cards), 15)  # eleven holdings plus four featured cards
+        self.assertEqual(len(ET.parse(ROOT / 'sitemap.xml').getroot()), 12)
         self.assertIn('Sitemap: https://mzunguway.com/sitemap.xml', (ROOT / 'robots.txt').read_text())
+
+    def test_bundle_enquiries_and_membership(self):
+        inventory = {d['name']: d for d in DOMAINS}
+        home = (ROOT / 'index.html').read_text()
+        self.assertEqual(len(BUNDLES), 4)
+        for bundle in BUNDLES:
+            names = [name for name, _ in bundle['members']]
+            self.assertEqual(len(set(names)), 2)
+            self.assertTrue(set(names).issubset(inventory))
+            url = urlsplit(bundle_offer_url(bundle))
+            self.assertEqual((url.scheme, url.path), ('mailto', 'hello@mzunguway.com'))
+            query = parse_qs(url.query)
+            self.assertIn(bundle['title'], query['subject'][0])
+            self.assertIn('Offer for the complete bundle:', query['body'][0])
+            self.assertIn(f'id="bundle-{bundle["slug"]}"', home)
+            for name in names:
+                self.assertIn(name, query['body'][0])
+                page = (ROOT / 'domains' / inventory[name]['slug'] / 'index.html').read_text()
+                self.assertIn(f'href="/#bundle-{bundle["slug"]}"', page)
+                self.assertIn('Request Bundle Offer', page)
+        for name in ['perfum.world', 'citationreadiness.com', 'responsibleagents.org']:
+            page = (ROOT / 'domains' / inventory[name]['slug'] / 'index.html').read_text()
+            self.assertNotIn('Also available as a bundle', page)
+
+    def test_removed_names_are_not_published(self):
+        paths = [ROOT / 'index.html', ROOT / 'sitemap.xml', *ROOT.glob('domains/*/index.html')]
+        for path in paths:
+            for retired in ['dataorig.in', 'choosethe.one', 'dataorig-in', 'choosethe-one']:
+                self.assertNotIn(retired, path.read_text())
 
 
 if __name__ == '__main__':

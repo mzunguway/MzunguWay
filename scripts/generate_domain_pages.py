@@ -7,6 +7,7 @@ from urllib.parse import quote
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ASSET_VERSION = "11"
 
 DOMAINS = [
     {
@@ -164,23 +165,30 @@ DOMAINS = [
 ]
 
 DOMAINS.extend([
-    dict(name="dataorig.in", slug="dataorig-in", category="Data & Provenance",
-         description="A compact data-origin identity for dataset provenance, lineage and traceability.",
-         concept="Data Provenance & Lineage Layer",
-         opportunity="Read across the dot, dataorig.in suggests data origin. It gives provenance a compact identity, while the .in ending requires explaining the domain hack when spoken.",
-         problem="Data teams need to understand where a dataset came from, what changed and which usage permissions are recorded.",
-         product="A provenance workspace connecting source records, transformation histories and permission documentation before a dataset is used in analytics or AI.",
-         workflow=["Register a dataset and its source.", "Document permissions and transformations.", "Trace lineage back to the source.", "Export an evidence record for review."],
-         fits=["Data-governance vendors", "Lineage platforms", "AI-data startups", "Dataset marketplaces"], afternic=None),
-    dict(name="choosethe.one", slug="choosethe-one", category="Brandable",
-         description="A memorable call-to-action name for curated recommendations, matching and confident choices.",
-         concept="Curated Recommendation & Matching Platform",
-         opportunity="The words and extension form one complete invitation: choose the one. It is easy to remember and flexible enough for a focused recommendation brand.",
-         problem="Buyers faced with too many similar options need a shortlist grounded in their own requirements.",
-         product="A curated recommendation service that gathers a customer's priorities, explains a small set of matches and helps them choose a product or service.",
-         workflow=["Define the customer's priorities.", "Create a relevant shortlist.", "Explain each match and its trade-offs.", "Help the customer choose."],
-         fits=["Recommendation startups", "Recruitment platforms", "Curated commerce", "Matching services"],
-         afternic="https://www.afternic.com/domain/choosethe.one"),
+    dict(name="perfum.world", slug="perfum-world", category="Fragrance & Lifestyle",
+         description="Explore perfum.world for acquisition: a fragrance brand opportunity for perfume discovery, scent guides and curated commerce.",
+         concept="Fragrance Discovery & Curation Studio",
+         opportunity="The short perfum stem evokes fragrance, while .world suggests a place to explore scents and their makers. It is a stylized brand spelling, rather than the standard English word perfume or French parfum, so the exact address should be made clear in brand communications.",
+         problem="Fragrance shoppers can find it difficult to translate scent notes, occasions and personal preferences into a useful shortlist before sampling.",
+         product="A fragrance-discovery destination with scent-family guides, independent perfumer profiles and curated sample selections. Visitors could explore by mood, occasion or ingredient before choosing which fragrances to try.",
+         workflow=["Choose scent preferences and an occasion.", "Explore fragrance families and maker stories.", "Compare a curated shortlist.", "Find a sample or connect with a retailer."],
+         fits=["Independent perfumers", "Fragrance retailers", "Discovery-box brands", "Beauty publishers"], afternic=None),
+    dict(name="agentpaymentid.com", slug="agentpaymentid-com", category="Agent Payments",
+         description="Acquire agentpaymentid.com for an AI-agent payment identity product, authorization workspace or delegated-commerce developer platform.",
+         concept="Payment Identity for AI Agents",
+         opportunity="Agent, payment and ID put a specific product question into a familiar .com address: which agent is acting, and on whose behalf? The name could anchor an identity product within a broader payment platform.",
+         problem="A payment workflow involving software agents needs a clear record of the acting agent, its principal and the spending authority granted for a transaction.",
+         product="A developer platform that maps agent identities to principals and recorded payment permissions. Teams could define spending scopes, review delegation and retain an authorization trail before routing a request to their payment provider.",
+         workflow=["Register the agent and its principal.", "Define payment scopes and spending limits.", "Check the recorded authority for a request.", "Keep an authorization trail and support revocation."],
+         fits=["Payment platforms", "Identity vendors", "Agent-commerce startups", "Fintech developer tools"], afternic=None),
+    dict(name="agentpaymentrisk.com", slug="agentpaymentrisk-com", category="Agent Payments",
+         description="Explore agentpaymentrisk.com for acquisition: a .com for AI-agent transaction monitoring, payment risk reviews and approval workflows.",
+         concept="Risk Review for Agent-Initiated Payments",
+         opportunity="The three words define a focused operational use case: reviewing payment risk when software agents initiate transactions. The .com address could suit a specialist product or a dedicated service within a payment business.",
+         problem="Payment teams need a way to review agent-initiated requests against spending policies, transaction context and exceptions that require human approval.",
+         product="A risk-review workspace that compares an agent's payment request with configured policies, highlights unusual activity and routes exceptions to a human reviewer. It could complement an existing payment processor without claiming to eliminate fraud.",
+         workflow=["Receive transaction and agent context.", "Compare the request with spending policies.", "Route exceptions for human approval.", "Record the decision and review subsequent outcomes."],
+         fits=["Payment-risk vendors", "Payment processors", "Fraud-operations teams", "Agent-commerce startups"], afternic=None),
 ])
 
 # Editorial positioning lives alongside the inventory: no runtime portfolio copy.
@@ -193,12 +201,38 @@ POSITIONING = {
  "promptinjection.help": ("Practical guidance at the boundary of trust.", ["Defense knowledge base", "Red-team resources", "Mitigation library", "Developer education"], ["The name matches a specific problem developers can recognize.", "Defensive examples and mitigation guidance can support a security platform."], ["Identify untrusted input", "Review boundaries", "Document mitigations"]),
  "responsibleagents.org": ("A shared home for responsible AI agents.", ["Governance research", "Policy templates", "Industry collaboration", "Nonprofit initiatives"], ["The .org ending suits an initiative with a public-interest mission.", "Governance templates and research can bring multiple disciplines together.", "The domain itself confers no standards authority or certification."], ["Principles", "Research", "Deployment guidance"]),
  "voicefraud.help": ("Think before you trust the voice.", ["Scam education", "Independent verification", "Fraud reporting", "Customer protection"], ["The name connects a recognizable risk with practical assistance.", "A bank or telecom could use it as a focused customer-education destination."], ["Pause", "Verify independently", "Preserve evidence", "Report"]),
- "dataorig.in": ("Every dataset has a story. Make its origin traceable.", ["Data lineage", "Provenance records", "Permission documentation", "Dataset reviews"], ["Source and transformation records support informed data-use decisions.", "The concept fits a standalone workspace or an existing governance suite."], ["Source", "Transformations", "Permissions"]),
- "choosethe.one": ("From endless options to one considered choice.", ["Curated commerce", "Matching services", "Recommendation tools", "Recruitment"], ["The complete phrase gives a product a natural call to action.", "A focused niche can make recommendations more useful than a general catalog."], ["Your priorities", "A considered shortlist", "Your choice"]),
+ "perfum.world": ("A world of scents, thoughtfully curated.", ["Fragrance discovery", "Scent guides", "Sample curation", "Perfumer stories"], ["A focused editorial identity can connect scent education with product discovery.", "The concept could support content, a sample service or a curated retail brand.", "The distinctive spelling calls for consistent visual branding and clear links."], ["Find your scent family", "Discover the makers", "Build a sample shortlist"]),
+ "agentpaymentid.com": ("Give every agent payment a clear identity.", ["Agent identity", "Delegated permissions", "Payment authorization", "Developer APIs"], ["Identifying the actor and its principal is a concrete part of payment authorization.", "An identity layer could serve several agent-driven commerce workflows.", "The paired risk domain offers a complementary product direction."], ["Agent identity", "Spending authority", "Authorization record"]),
+ "agentpaymentrisk.com": ("A focused name for agent payment risk.", ["Transaction monitoring", "Policy checks", "Approval workflows", "Risk operations"], ["Risk reviews can focus on a specific transaction and its context.", "The name could support a standalone tool or a dedicated product module.", "Pairing it with the identity domain could give a suite two distinct entry points."], ["Transaction context", "Policy review", "Human approval"]),
 }
 for domain in DOMAINS:
     domain["tagline"], domain["uses"], domain["reasons"], domain["preview"] = POSITIONING[domain["name"]]
     domain["featured"] = domain["name"] in {"arabicvoiceagent.com", "agentsecurity.help", "citationreadiness.com", "deepfakes.help"}
+
+# Bundle membership references the same inventory; it does not create new holdings.
+# These are private package enquiries, not marketplace bundle listings.
+BUNDLES = [
+    dict(slug="agent-payments", title="Agent Payments",
+         tagline="Identity and risk. Two connected product directions.",
+         members=[("agentpaymentid.com", "Identity & authorization"), ("agentpaymentrisk.com", "Transaction risk & approvals")],
+         concept="Build a payment suite with one destination for agent identity and delegated authority, and another for transaction monitoring and risk review.",
+         fits="Payment platforms · Identity vendors · Agent-commerce startups"),
+    dict(slug="ai-agent-security", title="AI Agent Security",
+         tagline="A security home, with a focused defense resource.",
+         members=[("agentsecurity.help", "Security & incident guidance"), ("promptinjection.help", "Prompt-injection defense")],
+         concept="Pair a broad AI-agent security portal with a specialist resource for prompt-injection defenses, developer education and mitigation guidance.",
+         fits="AI-security vendors · Agent platforms · Developer-tool companies"),
+    dict(slug="arabic-voice", title="Arabic Voice",
+         tagline="A commercial platform and a place to experiment.",
+         members=[("arabicvoiceagent.com", "Enterprise voice-agent product"), ("arabicvoice.xyz", "Speech demos & developer tools")],
+         concept="Launch an Arabic voice-agent platform alongside a developer playground for speech demos, regional voice evaluation and integration resources.",
+         fits="Conversational-AI startups · Contact-center platforms · Speech labs"),
+    dict(slug="synthetic-media-trust", title="Synthetic Media & Voice Trust",
+         tagline="Two clear entry points for impersonation support.",
+         members=[("deepfakes.help", "Synthetic-media guidance"), ("voicefraud.help", "Voice-scam education & response")],
+         concept="Create complementary support destinations for suspected synthetic media and suspicious voice interactions, connected by shared reporting and education resources.",
+         fits="Trust & safety providers · Banks · Telecom operators"),
+]
 
 
 def esc(value: str) -> str:
@@ -286,6 +320,52 @@ def mockup(domain):
     return f'<figure class="concept-preview"><div class="concept-chrome"><span aria-hidden="true">○ ○ ○</span><span>Brand concept</span></div><div class="concept-canvas"><p class="concept-name">{esc(domain["name"])}</p><h3>{esc(domain["tagline"])}</h3><ol class="concept-steps">{steps}</ol></div><figcaption>Illustrative concept only — not a working product. The domain name is the asset offered.</figcaption></figure>'
 
 
+def bundle_offer_url(bundle):
+    names = [name for name, _ in bundle['members']]
+    subject = quote(f"Bundle offer: {bundle['title']} — MzunguWay")
+    body = quote(
+        "Hello MzunguWay,\n\n"
+        f"I am interested in acquiring the {bundle['title']} bundle.\n\n"
+        "Requested domain names:\n" + '\n'.join(names) + "\n\n"
+        "Name:\nCompany:\nOffer for the complete bundle:\n"
+        "Intended use:\nAcquisition timeline:\n\n"
+        "Please confirm availability of all included domains and the combined transaction and transfer terms.\n\nThank you."
+    )
+    return f'mailto:hello@mzunguway.com?subject={subject}&body={body}'
+
+
+def bundle_members(bundle):
+    inventory = {d['name']: d for d in DOMAINS}
+    return '<ul class="bundle-members">' + ''.join(
+        f'<li><a href="/domains/{inventory[name]["slug"]}/">{esc(name)}</a><span>{esc(role)}</span></li>'
+        for name, role in bundle['members']
+    ) + '</ul>'
+
+
+def bundle_card(bundle):
+    return f'''<article class="card bundle-card" id="bundle-{bundle['slug']}">
+      <div class="kicker">{len(bundle['members'])} complementary domains</div>
+      <h3>{esc(bundle['title'])}</h3><p class="bundle-tagline">{esc(bundle['tagline'])}</p>
+      {bundle_members(bundle)}
+      <p class="bundle-concept">{esc(bundle['concept'])}</p>
+      <p class="bundle-buyers"><strong>Ideal for</strong> {esc(bundle['fits'])}</p>
+      <a class="btn primary" href="{esc(bundle_offer_url(bundle))}" aria-label="Request Bundle Offer: {esc(bundle['title'])}">Request Bundle Offer</a>
+      <p class="bundle-note">Private package enquiry · Domain names only · Individual enquiries welcome</p>
+    </article>'''
+
+
+def domain_bundle(domain):
+    bundle = next((b for b in BUNDLES if domain['name'] in dict(b['members'])), None)
+    if not bundle:
+        return ''
+    return f'''<aside class="detail-section domain-bundle" aria-label="Complementary domain bundle">
+      <div class="kicker">Also available as a bundle</div><h2>{esc(bundle['title'])}</h2>
+      <p>{esc(bundle['concept'])}</p>{bundle_members(bundle)}
+      <div class="detail-actions"><a class="btn primary" href="{esc(bundle_offer_url(bundle))}">Request Bundle Offer</a><a class="text-link" href="/#bundle-{bundle['slug']}">Explore this bundle <span aria-hidden="true">→</span></a></div>
+      <p class="bundle-note">Request combined terms directly. Availability of both names, price and transfer arrangements must be confirmed together. Individual marketplace listings do not constitute a bundle checkout.</p>
+    </aside>'''
+
+
 def card(domain, featured=False):
     url = f'/domains/{domain["slug"]}/'
     return f'''<article class="domain" data-category="{esc(domain['category'])}" data-featured="{str(domain['featured']).lower()}">
@@ -299,7 +379,8 @@ def card(domain, featured=False):
 
 
 def related(domain):
-    candidates = sorted((d for d in DOMAINS if d != domain), key=lambda d: d['category'] != domain['category'])[:3]
+    companions = {name for b in BUNDLES if domain['name'] in dict(b['members']) for name, _ in b['members']}
+    candidates = sorted((d for d in DOMAINS if d != domain), key=lambda d: (d['name'] not in companions, d['category'] != domain['category']))[:3]
     return ''.join(f'<a class="card" href="/domains/{d["slug"]}/"><span class="kicker">{esc(d["category"])}</span><strong>{esc(d["name"])}</strong><p>{esc(d["tagline"])}</p></a>' for d in candidates)
 
 
@@ -312,8 +393,7 @@ def render(domain: dict[str, object]) -> str:
     opportunity = str(domain["opportunity"])
     problem = str(domain["problem"])
     product = str(domain["product"])
-    afternic = domain["afternic"] or offer_url(name)
-    transaction = "Afternic marketplace" if domain["afternic"] else "Private enquiry — confirm eligibility and transfer terms"
+    transaction = "Afternic marketplace" if domain["afternic"] else "Private enquiry — confirm transaction and transfer terms"
     workflow = list(domain["workflow"])
     fits = list(domain["fits"])
     url = f"https://mzunguway.com/domains/{slug}/"
@@ -369,6 +449,7 @@ def render(domain: dict[str, object]) -> str:
           <a href="/#studio">Studio</a>
           <a href="/#spirit">Spirit</a>
           <a href="/#domains">Domains</a>
+          <a href="/#bundles">Bundles</a>
           <a href="/#process">How it works</a>
           <a href="/#faq">FAQ</a>
           <a href="/#contact">Contact</a>
@@ -392,7 +473,7 @@ def render(domain: dict[str, object]) -> str:
         <div class="domain-page-copy">
           <div class="domain-kicker-row">
             <div class="kicker">{esc(category)}</div>
-            <span class="status-chip">Listed for acquisition</span>
+            <span class="status-chip">{'Listed for acquisition' if domain['afternic'] else 'Private enquiry'}</span>
           </div>
           <h1 class="domain-display">{esc(name)}</h1>
           <p class="opportunity-tagline">{esc(domain['tagline'])}</p>
@@ -472,7 +553,8 @@ def render(domain: dict[str, object]) -> str:
           {actions(domain)}
         </div>
 
-        <section class="related-opportunities" aria-label="Related opportunities"><div class="kicker">Explore another direction</div><h2>Related opportunities</h2><div class="related-grid">{related(domain)}</div></section>
+{domain_bundle(domain)}
+        <section class="related-opportunities" aria-label="More opportunities"><div class="kicker">Explore another direction</div><h2>More opportunities</h2><div class="related-grid">{related(domain)}</div></section>
 
         <a class="text-link back-link" href="/#domains"><span aria-hidden="true">←</span> Return to all domains</a>
       </div>
@@ -497,12 +579,12 @@ def main() -> None:
     for domain in DOMAINS:
         output_dir = ROOT / "domains" / str(domain["slug"])
         output_dir.mkdir(parents=True, exist_ok=True)
-        (output_dir / "index.html").write_text(render(domain).replace('?v=7', '?v=10'), encoding="utf-8")
+        (output_dir / "index.html").write_text(render(domain).replace('?v=7', f'?v={ASSET_VERSION}'), encoding="utf-8")
     template = (ROOT / "templates/home.html").read_text(encoding="utf-8")
     cards = '\n'.join(card(d) for d in DOMAINS)
     featured = '\n'.join(card(d, True) for d in DOMAINS if d['featured'])
     items = [{"@type": "ListItem", "position": i + 1, "url": f"https://mzunguway.com/domains/{d['slug']}/", "name": d['name']} for i, d in enumerate(DOMAINS)]
-    template = template.replace('@@PORTFOLIO@@', cards).replace('@@FEATURED@@', featured).replace('@@ITEMS@@', json.dumps(items)).replace('@@COUNT@@', str(len(DOMAINS))).replace('?v=9', '?v=10')
+    template = template.replace('@@PORTFOLIO@@', cards).replace('@@FEATURED@@', featured).replace('@@BUNDLES@@', '\n'.join(bundle_card(b) for b in BUNDLES)).replace('@@ITEMS@@', json.dumps(items)).replace('@@COUNT@@', str(len(DOMAINS))).replace('?v=9', f'?v={ASSET_VERSION}')
     (ROOT / 'index.html').write_text(template, encoding='utf-8')
     urls = ['https://mzunguway.com/'] + [f"https://mzunguway.com/domains/{d['slug']}/" for d in DOMAINS]
     (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(f'<url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n', encoding='utf-8')

@@ -1,12 +1,14 @@
-MZUNGUWAY V10 — CURATED DIGITAL ASSETS
+MZUNGUWAY V11 — CURATED DIGITAL ASSETS & BUNDLES
 
 Static HTML, CSS and progressive-enhancement JavaScript. No runtime framework,
 package installation, tracking script or external data request is required.
 
 MAINTENANCE
-The authoritative inventory and editorial positioning are in
-scripts/generate_domain_pages.py (DOMAINS and POSITIONING). Update both when
-adding a verified holding. Do not edit generated pages directly.
+The authoritative inventory, editorial positioning and package memberships are
+in scripts/generate_domain_pages.py (DOMAINS, POSITIONING and BUNDLES). Update
+these when adding or removing a verified holding. Delete a retired holding's
+generated page too; the tests detect leftover pages. Do not edit generated
+pages directly.
 
 Homepage structure: templates/home.html
 Shared design: styles.css (existing Manrope/Sora, navy/gold/cream palette)
@@ -17,10 +19,21 @@ Check: python3 scripts/test_site.py
 Check JS: node --check app.js
 Preview: python3 -m http.server 8765
 
-The generator writes index.html, all ten domain pages and sitemap.xml.
+The generator writes index.html, all eleven domain pages and sitemap.xml.
 Commit generated files with their source so GitHub Pages needs no build step.
-Existing domain URLs and marketplace links are preserved. dataorig.in remains
-private-enquiry only; confirm registry/registrar eligibility and transfer terms.
+Existing active domain URLs and marketplace links are preserved. The three new
+holdings (perfum.world, agentpaymentid.com, agentpaymentrisk.com) use private
+enquiries until a verified marketplace URL is supplied.
+
+BUNDLES
+Four curated pairs: Agent Payments, AI Agent Security, Arabic Voice, and
+Synthetic Media & Voice Trust. Each member links to its individual page.
+Request Bundle Offer opens a prefilled email naming every included domain.
+No message is sent automatically. Confirm all names, combined pricing and
+transaction/transfer arrangements before agreeing a package. The existing
+individual marketplace links do not imply a marketplace bundle checkout.
+No package price, discount or payment plan is invented. Individual enquiries
+remain possible; unpaired domains are not forced into unrelated bundles.
 
 ACQUISITION RULES
 No prices or payment plans are asserted here. Afternic links point to the existing
@@ -37,7 +50,7 @@ vector conversion: true unlimited-scale output needs the original vector asset.
 Existing SVG/favicon/social assets remain available for backward compatibility.
 
 SEARCH CONSOLE
-All ten detail pages are static, linked from the homepage and in sitemap.xml.
+All eleven detail pages are static, linked from the homepage and in sitemap.xml.
 Titles, descriptions, canonicals, OG metadata and breadcrumbs are generated.
 robots.txt permits crawling. No Search Console verification token is invented.
 Owner action: verify the property and submit https://mzunguway.com/sitemap.xml.
