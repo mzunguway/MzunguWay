@@ -936,8 +936,8 @@ footer { padding: 28px 0 45px; color: var(--muted); font-size: .82rem; }
 .domain-display {
   max-width: none;
   margin: 24px 0 14px;
-  font-size: clamp(2.75rem, 7.4vw, 5.9rem);
-  line-height: .93;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.12;
   overflow-wrap: anywhere;
 }
 
@@ -1215,7 +1215,7 @@ footer { padding: 28px 0 45px; color: var(--muted); font-size: .82rem; }
   .faq-list details p { margin-right: 18px; margin-left: 18px; }
   .transaction-note > div { align-items: flex-start; }
   .foot { flex-direction: column; }
-  .domain-display { font-size: clamp(2.5rem, 14vw, 4rem); }
+  .domain-display { font-size: clamp(1.2rem, 6.3vw, 2.25rem); }
   .detail-actions { display: grid; }
   .detail-actions .btn { width: 100%; }
   .fact { grid-template-columns: 1fr; gap: 3px; }
