@@ -866,6 +866,10 @@ footer { padding: 28px 0 45px; color: var(--muted); font-size: .82rem; }
 .opportunity-tagline { font: 500 clamp(1.2rem, 2vw, 1.7rem)/1.4 Sora, sans-serif; margin: 22px 0; }
 .commercial-reasons { color: var(--muted); padding-left: 20px; }
 .commercial-reasons li + li { margin-top: 14px; }
+.naming-consideration { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.naming-consideration summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+.naming-consideration summary:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.detail-section .concept-boundary { font-size: .88rem; border-left: 2px solid var(--gold); padding-left: 14px; margin-top: 20px; }
 .concept-preview { margin: 25px 0 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--paper); }
 .concept-chrome { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid var(--line); font-size: .7rem; color: var(--muted); }
 .concept-canvas { padding: 25px; background: var(--ink); color: white; }

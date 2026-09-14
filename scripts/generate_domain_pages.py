@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import html
 import json
+import xml.etree.ElementTree as ET
+from datetime import date
 from pathlib import Path
 from urllib.parse import quote
+from domain_editorial import EDITORIAL
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSET_VERSION = "11"
+ASSET_VERSION = "12"
 
 DOMAINS = [
     {
@@ -391,6 +394,7 @@ def render(domain: dict[str, object]) -> str:
     description = str(domain["description"])
     concept = str(domain["concept"])
     opportunity = str(domain["opportunity"])
+    editorial = EDITORIAL[name]
     problem = str(domain["problem"])
     product = str(domain["product"])
     transaction = "Afternic marketplace" if domain["afternic"] else "Private enquiry — confirm transaction and transfer terms"
@@ -506,6 +510,10 @@ def render(domain: dict[str, object]) -> str:
               <div class="kicker">Why this domain</div>
               <h2>The opportunity</h2>
               <p>{esc(opportunity)}</p>
+              <ul class="commercial-reasons">{''.join('<li>' + esc(point) + '</li>' for point in editorial['advantages'])}</ul>
+              <h3 class="section-subhead">When this name is the right fit</h3>
+              <p>{esc(editorial['fit'])}</p>
+              <details class="naming-consideration"><summary>The naming trade-off</summary><p>{esc(editorial['tradeoff'])}</p></details>
             </article>
             <article class="detail-section">
               <div class="kicker">Ideal for</div>
@@ -541,6 +549,9 @@ def render(domain: dict[str, object]) -> str:
               <ol class="workflow-list">
 {workflow_html}
               </ol>
+              <h3 class="section-subhead">A focused first launch</h3>
+              <p>{esc(editorial['launch'])}</p>
+              <p class="concept-boundary">The name sets the direction. Your team builds the service, earns trust and delivers the results.</p>
             </article>
           </div>
         </div>
@@ -586,8 +597,22 @@ def main() -> None:
     items = [{"@type": "ListItem", "position": i + 1, "url": f"https://mzunguway.com/domains/{d['slug']}/", "name": d['name']} for i, d in enumerate(DOMAINS)]
     template = template.replace('@@PORTFOLIO@@', cards).replace('@@FEATURED@@', featured).replace('@@BUNDLES@@', '\n'.join(bundle_card(b) for b in BUNDLES)).replace('@@ITEMS@@', json.dumps(items)).replace('@@COUNT@@', str(len(DOMAINS))).replace('?v=9', f'?v={ASSET_VERSION}')
     (ROOT / 'index.html').write_text(template, encoding='utf-8')
+    # Preserve collection routes and their modification dates when rebuilding the portfolio.
+    namespace = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+    sitemap = ROOT / 'sitemap.xml'
+    previous = {entry.findtext('s:loc', namespaces=namespace): entry.findtext('s:lastmod', namespaces=namespace)
+                for entry in ET.parse(sitemap).getroot()} if sitemap.exists() else {}
     urls = ['https://mzunguway.com/'] + [f"https://mzunguway.com/domains/{d['slug']}/" for d in DOMAINS]
-    (ROOT / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(f'<url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n', encoding='utf-8')
+    collections = ['https://mzunguway.com/' + str(p.parent.relative_to(ROOT)) + '/'
+                   for p in sorted(ROOT.glob('collections/**/index.html'))]
+    urls += collections
+    entries = []
+    for url in urls:
+        page = ROOT / url.removeprefix('https://mzunguway.com/') / 'index.html'
+        modified = date.fromtimestamp(page.stat().st_mtime).isoformat()
+        lastmod = previous.get(url) if url in collections else modified
+        entries.append(f'<url><loc>{url}</loc><lastmod>{lastmod or modified}</lastmod></url>')
+    sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(entries) + '\n</urlset>\n', encoding='utf-8')
 
 
 if __name__ == "__main__":

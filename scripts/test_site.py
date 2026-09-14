@@ -67,7 +67,11 @@ class SiteTests(unittest.TestCase):
         source = (ROOT / 'index.html').read_text()
         cards = [a for t, a in Page(source).tags if t == 'article' and 'data-category' in a]
         self.assertEqual(len(cards), 15)  # eleven holdings plus four featured cards
-        self.assertEqual(len(ET.parse(ROOT / 'sitemap.xml').getroot()), 12)
+        sitemap_urls = {e.find('{http://www.sitemaps.org/schemas/sitemap/0.9}loc').text for e in ET.parse(ROOT / 'sitemap.xml').getroot()}
+        self.assertEqual(len(sitemap_urls), 17)
+        for path in ROOT.glob('collections/**/index.html'):
+            self.assertIn('https://mzunguway.com/' + str(path.parent.relative_to(ROOT)) + '/', sitemap_urls)
+        self.assertIn('qCcFSDu1fIHom87n-l1ZQqGqbgTom5Xb3y1dMI6KCQU', source)
         self.assertIn('Sitemap: https://mzunguway.com/sitemap.xml', (ROOT / 'robots.txt').read_text())
 
     def test_bundle_enquiries_and_membership(self):
