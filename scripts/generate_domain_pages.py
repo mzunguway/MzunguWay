@@ -306,10 +306,9 @@ def page_schema(domain: dict[str, object]) -> str:
 
 def actions(domain):
     marketplace = domain['afternic']
-    href = marketplace or offer_url(domain['name'])
-    attrs = ' target="_blank" rel="noopener noreferrer"' if marketplace else ''
-    label = 'Acquire Domain' if marketplace else 'Discuss Acquisition'
-    return f'<div class="detail-actions"><a class="btn primary" href="{esc(href)}"{attrs}>{label}</a><a class="btn" href="{esc(offer_url(domain["name"]))}">Make an Offer</a></div>'
+    offer = '/contact/?domain=' + quote(domain['name'], safe='')
+    primary = f'<a class="btn primary" href="{esc(marketplace)}" target="_blank" rel="noopener noreferrer">View price on Afternic</a>' if marketplace else ''
+    return f'<div class="detail-actions">{primary}<a class="btn {"" if marketplace else "primary"}" href="{esc(offer)}">Make an Offer</a></div>'
 
 
 def route_note(domain):
@@ -324,17 +323,7 @@ def mockup(domain):
 
 
 def bundle_offer_url(bundle):
-    names = [name for name, _ in bundle['members']]
-    subject = quote(f"Bundle offer: {bundle['title']} — MzunguWay")
-    body = quote(
-        "Hello MzunguWay,\n\n"
-        f"I am interested in acquiring the {bundle['title']} bundle.\n\n"
-        "Requested domain names:\n" + '\n'.join(names) + "\n\n"
-        "Name:\nCompany:\nOffer for the complete bundle:\n"
-        "Intended use:\nAcquisition timeline:\n\n"
-        "Please confirm availability of all included domains and the combined transaction and transfer terms.\n\nThank you."
-    )
-    return f'mailto:hello@mzunguway.com?subject={subject}&body={body}'
+    return '/contact/?domain=' + quote(' + '.join(name for name, _ in bundle['members']), safe='')
 
 
 def bundle_members(bundle):

@@ -1,58 +1,63 @@
-// Progressive enhancement: inventory and links are rendered at build time.
-document.querySelectorAll('[data-current-year], #year').forEach(node => {
-  node.textContent = new Date().getFullYear();
-});
-const menuToggle = document.getElementById('menuToggle');
-const mainNav = document.getElementById('mainNav');
+// Localized progressive enhancement. Inventory and translated content are static HTML.
+const lang = document.documentElement.lang || 'en';
+const ui = (window.MW_UI || {})[lang] || {};
+document.querySelectorAll('[data-current-year], #year').forEach(n => { n.textContent = new Date().getFullYear(); });
+const toggle = document.getElementById('menuToggle');
+const nav = document.getElementById('mainNav');
 function closeMenu() {
-  if (!menuToggle || !mainNav) return;
-  menuToggle.setAttribute('aria-expanded', 'false');
-  menuToggle.setAttribute('aria-label', 'Open navigation menu');
-  mainNav.classList.remove('open');
-  document.body.classList.remove('menu-open');
+  if (!toggle || !nav) return;
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', ui.menu || 'Open menu');
+  nav.classList.remove('open'); document.body.classList.remove('menu-open');
 }
-if (menuToggle && mainNav) {
-  menuToggle.addEventListener('click', () => {
-    const opening = menuToggle.getAttribute('aria-expanded') !== 'true';
-    menuToggle.setAttribute('aria-expanded', String(opening));
-    menuToggle.setAttribute('aria-label', opening ? 'Close navigation menu' : 'Open navigation menu');
-    mainNav.classList.toggle('open', opening);
-    document.body.classList.toggle('menu-open', opening);
+if (toggle && nav) {
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? ui.close : ui.menu);
+    nav.classList.toggle('open', open); document.body.classList.toggle('menu-open', open);
   });
-  mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
-      closeMenu();
-      menuToggle.focus();
-    }
-  });
-  window.addEventListener('resize', () => { if (window.innerWidth > 820) closeMenu(); });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true'){closeMenu();toggle.focus();} });
+  window.addEventListener('resize', () => { if(window.innerWidth > 820) closeMenu(); });
 }
 const grid = document.getElementById('domainGrid');
 const filters = document.getElementById('filters');
-const resultCount = document.getElementById('resultCount');
 if (grid && filters) {
   const cards = [...grid.querySelectorAll('[data-category]')];
-  const categories = ['All', 'Featured', ...new Set(cards.map(card => card.dataset.category))];
-  categories.forEach((category, index) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'filter' + (index === 0 ? ' active' : '');
-    button.textContent = category;
-    button.setAttribute('aria-pressed', String(index === 0));
-    button.addEventListener('click', () => {
-      filters.querySelectorAll('button').forEach(item => {
-        item.classList.toggle('active', item === button);
-        item.setAttribute('aria-pressed', String(item === button));
-      });
-      cards.forEach(card => {
-        card.hidden = !(category === 'All' || card.dataset.category === category ||
-          (category === 'Featured' && card.dataset.featured === 'true'));
-      });
-      const count = cards.filter(card => !card.hidden).length;
-      resultCount.textContent = count + (count === 1 ? ' domain shown' : ' domains shown');
-    });
-    filters.appendChild(button);
+  const groups = [{key:'all',label:ui.all},{key:'featured',label:ui.featured}, ...[...new Set(cards.map(c=>c.dataset.category))].map(label=>({key:label,label}))];
+  groups.forEach((group,i) => {
+    const b=document.createElement('button'); b.type='button'; b.className='filter'+(i===0?' active':''); b.textContent=group.label; b.setAttribute('aria-pressed',String(i===0));
+    b.addEventListener('click',()=>{
+      filters.querySelectorAll('button').forEach(n=>{n.classList.toggle('active',n===b);n.setAttribute('aria-pressed',String(n===b));});
+      cards.forEach(c=>{c.hidden=!(group.key==='all'||(group.key==='featured'?c.dataset.featured==='true':c.dataset.category===group.key));});
+      document.getElementById('resultCount').textContent=cards.filter(c=>!c.hidden).length+' '+ui.shown;
+    }); filters.append(b);
+  }); filters.hidden=false;
+}
+// Carry a draft's selected domain when switching languages; never carry personal data.
+const selected = new URLSearchParams(location.search).get('domain');
+if (selected) document.querySelectorAll('.language-switch a').forEach(a=>{const url=new URL(a.href);url.searchParams.set('domain',selected.slice(0,250));a.href=url.href;});
+const form=document.getElementById('enquiryForm');
+if(form) {
+  form.hidden=false;
+  if(selected) document.getElementById('enquiryDomain').value=selected.slice(0,250);
+  form.addEventListener('submit',e=>{
+    e.preventDefault(); if(!form.reportValidity())return;
+    const data=new FormData(form);
+    const fields=['domain','email','budget','message'];
+    const labels={domain:ui.domain_label,email:ui.email,budget:ui.budget,message:ui.message};
+    const message=fields.map(k=>labels[k]+': '+String(data.get(k)||'').trim()).join('\n\n');
+    const subject=String(data.get('domain')).replace(/[\r\n]/g,' ').slice(0,250)+' — MzunguWay';
+    document.getElementById('preparedMessage').value=message;
+    document.getElementById('sendEnquiry').href='mailto:hello@mzunguway.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(message);
+    document.getElementById('enquiryResult').hidden=false;
+    document.getElementById('enquiryStatus').textContent=ui.ready;
+    document.getElementById('enquiryResult').scrollIntoView({behavior:'smooth',block:'nearest'});
   });
-  filters.hidden = false;
+  document.getElementById('copyEnquiry').addEventListener('click',async()=>{
+    const text=document.getElementById('preparedMessage');
+    try {await navigator.clipboard.writeText(text.value);document.getElementById('enquiryStatus').textContent=ui.copied;}
+    catch {text.focus();text.select();document.getElementById('enquiryStatus').textContent=ui.copy_fail;}
+  });
 }

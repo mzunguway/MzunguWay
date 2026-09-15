@@ -4,6 +4,7 @@ import unittest
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from urllib.parse import urlsplit, unquote, parse_qs
+from build_multilingual import patch_en
 from generate_domain_pages import ASSET_VERSION, BUNDLES, DOMAINS, ROOT, bundle_offer_url, render
 
 
@@ -35,7 +36,7 @@ class SiteTests(unittest.TestCase):
         for d in DOMAINS:
             path = ROOT / 'domains' / d['slug'] / 'index.html'
             source = path.read_text()
-            self.assertEqual(source, render(d).replace('?v=7', f'?v={ASSET_VERSION}'))
+            self.assertEqual(source, patch_en(render(d).replace('?v=7', f'?v={ASSET_VERSION}'), 'domains/'+d['slug']+'/'))
             page = Page(source)
             self.assertEqual(sum(tag == 'h1' for tag, attrs in page.tags), 1)
             meta = {a.get('name', a.get('property')): a.get('content') for t, a in page.tags if t == 'meta'}
@@ -66,9 +67,9 @@ class SiteTests(unittest.TestCase):
     def test_home_and_sitemap(self):
         source = (ROOT / 'index.html').read_text()
         cards = [a for t, a in Page(source).tags if t == 'article' and 'data-category' in a]
-        self.assertEqual(len(cards), 15)  # eleven holdings plus four featured cards
+        self.assertEqual(len(cards), 11)  # eleven unique holdings
         sitemap_urls = {e.find('{http://www.sitemaps.org/schemas/sitemap/0.9}loc').text for e in ET.parse(ROOT / 'sitemap.xml').getroot()}
-        self.assertEqual(len(sitemap_urls), 17)
+        self.assertEqual(len(sitemap_urls), 72)
         for path in ROOT.glob('collections/**/index.html'):
             self.assertIn('https://mzunguway.com/' + str(path.parent.relative_to(ROOT)) + '/', sitemap_urls)
         self.assertIn('qCcFSDu1fIHom87n-l1ZQqGqbgTom5Xb3y1dMI6KCQU', source)
@@ -83,13 +84,12 @@ class SiteTests(unittest.TestCase):
             self.assertEqual(len(set(names)), 2)
             self.assertTrue(set(names).issubset(inventory))
             url = urlsplit(bundle_offer_url(bundle))
-            self.assertEqual((url.scheme, url.path), ('mailto', 'hello@mzunguway.com'))
+            self.assertEqual((url.scheme, url.path), ('', '/contact/'))
             query = parse_qs(url.query)
-            self.assertIn(bundle['title'], query['subject'][0])
-            self.assertIn('Offer for the complete bundle:', query['body'][0])
+            self.assertEqual(query['domain'][0], ' + '.join(names))
             self.assertIn(f'id="bundle-{bundle["slug"]}"', home)
             for name in names:
-                self.assertIn(name, query['body'][0])
+                self.assertIn(name, query['domain'][0])
                 page = (ROOT / 'domains' / inventory[name]['slug'] / 'index.html').read_text()
                 self.assertIn(f'href="/#bundle-{bundle["slug"]}"', page)
                 self.assertIn('Request Bundle Offer', page)

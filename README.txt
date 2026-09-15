@@ -55,3 +55,16 @@ Titles, descriptions, canonicals, OG metadata and breadcrumbs are generated.
 robots.txt permits crawling. No Search Console verification token is invented.
 Owner action: verify the property and submit https://mzunguway.com/sitemap.xml.
 Technical readiness does not guarantee indexing or search rankings.
+
+V13 — MULTILINGUAL BUYING JOURNEY
+Build: python3 scripts/build_multilingual.py
+Validate: python3 scripts/test_site.py && python3 scripts/test_multilingual.py
+The multilingual build calls the English generator, then generates all locales.
+Do not run only generate_domain_pages.py for publication: that omits locale links.
+Reviewed localized copy: scripts/locales.py. Layouts: scripts/build_multilingual.py.
+English editorial detail remains in domain_editorial.py and generate_domain_pages.py.
+72 static pages: English, French, German and Spanish, with reciprocal hreflang.
+Three highlighted names in one eleven-name catalogue; existing holdings unchanged.
+Contact forms compose an email locally; the visitor must send it from their mail
+application. No backend, delivery claim, analytics or third-party form service is
+introduced. The copy fallback remains available when no email app is configured.
