@@ -1,0 +1,122 @@
+/* MzunguWay 2026-09 targeted presentation overrides. Existing stylesheet remains intact. */
+:root {
+  --mw-action: #1a56db;
+  --mw-action-hover: #1648ba;
+}
+
+.domain {
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.domain:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.domain-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.badge-featured {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: .65rem;
+  padding: .28rem .55rem;
+  border: 1px solid rgba(26, 86, 219, .22);
+  border-radius: 999px;
+  background: rgba(26, 86, 219, .08);
+  color: var(--mw-action);
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.btn-primary,
+.btn-outline {
+  min-height: 43px;
+  border-radius: 8px;
+}
+
+.btn-primary {
+  border: 1px solid var(--mw-action) !important;
+  background: var(--mw-action) !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  border-color: var(--mw-action-hover) !important;
+  background: var(--mw-action-hover) !important;
+  color: #fff !important;
+}
+
+.btn-outline {
+  border: 1px solid var(--mw-action) !important;
+  background: transparent !important;
+  color: var(--mw-action) !important;
+}
+
+.btn-outline:hover {
+  background: rgba(26, 86, 219, .06) !important;
+  color: var(--mw-action-hover) !important;
+}
+
+.btn-link,
+.domain-actions > .text-link.btn-link {
+  min-height: 0;
+  padding: .35rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.btn-link:hover,
+.domain-actions > .text-link.btn-link:hover {
+  background: transparent;
+  box-shadow: none;
+  color: var(--gold-dark);
+  transform: none;
+}
+
+.domain-actions .detail-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.studio-index {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 .72rem;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  background: #fffaf0;
+  color: var(--gold-dark);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+@media (max-width: 980px) {
+  .domain-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .domain-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .domain-actions .detail-actions {
+    grid-template-columns: 1fr;
+  }
+}
