@@ -313,13 +313,13 @@ def actions(domain):
 
 def route_note(domain):
     if domain['afternic']:
-        return 'Acquisition opens the existing Afternic listing. Confirm availability, pricing and any payment options there before proceeding. MzunguWay is not an official marketplace partner.'
-    return 'Private enquiry only. Confirm current availability, registrar eligibility, transaction method and transfer terms before any payment.'
+        return 'Acquisition opens the existing Afternic listing. Confirm availability, pricing and any payment options there before proceeding. '
+    return 'Contact MzunguWay for acquisition terms and a transfer process tailored to this domain.'
 
 
 def mockup(domain):
     steps = ''.join(f'<li><span class="concept-number">0{i + 1}</span><span>{esc(step)}</span></li>' for i, step in enumerate(domain['preview']))
-    return f'<figure class="concept-preview"><div class="concept-chrome"><span aria-hidden="true">○ ○ ○</span><span>Brand concept</span></div><div class="concept-canvas"><p class="concept-name">{esc(domain["name"])}</p><h3>{esc(domain["tagline"])}</h3><ol class="concept-steps">{steps}</ol></div><figcaption>Illustrative concept only — not a working product. The domain name is the asset offered.</figcaption></figure>'
+    return f'<figure class="concept-preview"><div class="concept-chrome"><span aria-hidden="true">○ ○ ○</span><span>Brand concept</span></div><div class="concept-canvas"><p class="concept-name">{esc(domain["name"])}</p><h3>{esc(domain["tagline"])}</h3><ol class="concept-steps">{steps}</ol></div><figcaption>Business concept to develop with this domain name.</figcaption></figure>'
 
 
 def bundle_offer_url(bundle):
@@ -486,7 +486,7 @@ def render(domain: dict[str, object]) -> str:
               <div class="fact"><dt>Transaction</dt><dd>{esc(transaction)}</dd></div>
             </dl>
           </div>
-          <p class="aside-disclaimer">Concepts are illustrative positioning ideas. No operating business, website, traffic, trademark or content is included unless separately agreed in writing.</p>
+          <p class="aside-disclaimer">Acquire the domain name and develop the business concept with your team.</p>
         </aside>
       </div>
     </section>

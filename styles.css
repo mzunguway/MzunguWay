@@ -1279,3 +1279,12 @@ html {scroll-padding-top:140px}
 #domainGrid [hidden] {display:none!important}
 :focus-visible {outline:3px solid #99751f;outline-offset:4px}
 @media(max-width:820px){.language-switch{justify-content:center}.site-header .navbar{min-height:65px}.navlinks.open{top:100%}.domain-display{overflow-wrap:anywhere}.contact-page{padding:35px 0 60px}.language-switch a{padding:5px 8px}.domain-actions .btn{white-space:normal;text-align:center}}
+/* Studio-first identity, readable logo and restored use cases. */
+.hero .identity {flex-direction:column;justify-content:center;padding:28px 18px;gap:24px}
+.hero-logo-window {position:relative;width:100%;aspect-ratio:1.7;overflow:hidden;flex:none}
+.hero-logo-window img {position:absolute;width:145%;max-width:none;height:auto;left:50%;top:50%;transform:translate(-50%,-48%)}
+.hero-logo-tagline {margin:0;text-align:center;font-size:clamp(12px,1.1vw,17px);font-weight:600;letter-spacing:.13em;color:#142536;text-transform:uppercase}
+.hero-logo-tagline span {color:#b78a2d;margin:0 .35em}
+.card-usecase>p {margin:8px 0 16px;font-size:14px;line-height:1.65;color:#4a5661}
+.language-switch a {min-width:38px;text-align:center;font-weight:700}
+@media(max-width:600px){.hero-logo-tagline{font-size:11px;letter-spacing:.08em}.hero .identity{min-height:280px}}

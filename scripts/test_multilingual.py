@@ -24,8 +24,8 @@ class LocalizedRoutes(unittest.TestCase):
                 links=[a for t,a in tags if t=='link' and a.get('rel')=='alternate']
                 self.assertEqual({a['hreflang'] for a in links},{'en','fr','de','es','x-default'})
                 self.assertEqual(len(links),5)
-                self.assertEqual(sum(t=='script' and a.get('src')=='/app.js?v=13' for t,a in tags),1)
-                self.assertEqual(sum(t=='script' and a.get('src')=='/assets/ui.js?v=13' for t,a in tags),1)
+                self.assertEqual(sum(t=='script' and a.get('src')=='/app.js?v=14' for t,a in tags),1)
+                self.assertEqual(sum(t=='script' and a.get('src')=='/assets/ui.js?v=14' for t,a in tags),1)
                 canon=next(a['href'] for t,a in tags if t=='link' and a.get('rel')=='canonical')
                 rel=str(file.parent.relative_to(ROOT));expected=ORIGIN+'/' + (rel+'/' if rel!='.' else '')
                 self.assertEqual(canon,expected)
@@ -47,7 +47,7 @@ class LocalizedRoutes(unittest.TestCase):
             self.assertEqual(len(cards),11)
             self.assertEqual(sum(a.get('data-featured')=='true' for a in cards),3)
             self.assertLess(source.index('id="domains"'),source.index('id="bundles"'))
-            self.assertLess(source.index('id="domains"'),source.index('id="studio"'))
+            self.assertLess(source.index('id="studio"'),source.index('id="domains"'))
     def test_forms(self):
         for l in LANGUAGES:
             tags=Page((ROOT/path(l,'contact/').lstrip('/')/'index.html').read_text()).tags

@@ -140,3 +140,17 @@ for lang,rows in DOMAIN_ROWS.items():
         name,*fields=row.split('|')
         assert len(fields)==5, name
         COPY[lang][name]=dict(zip(('tagline','concept','why','tradeoff','buyers'),fields))
+
+# Studio-first presentation and concise, positive acquisition copy.
+for l, note, scope in [
+('en','Explore the current acquisition terms on Afternic.','Acquire the domain name and develop the business concept with your team.'),
+('fr','Consultez les conditions d’acquisition actuelles sur Afternic.','Acquérez le nom de domaine et développez le concept avec votre équipe.'),
+('de','Die aktuellen Kaufkonditionen finden Sie bei Afternic.','Erwerben Sie den Domainnamen und entwickeln Sie das Konzept mit Ihrem Team.'),
+('es','Consulta las condiciones actuales de compra en Afternic.','Adquiere el nombre de dominio y desarrolla el concepto con tu equipo.')]:
+    UI[l]['market_note']=note
+    UI[l]['boundary']=scope
+for l,label in zip(LANGUAGES,['Use cases','Cas d’usage','Anwendungsfälle','Casos de uso']):UI[l]['use_cases']=label
+USE_ROWS = {
+'fr': ['Base de connaissances · Audit des permissions · Assistance sécurité','Réservations · Service client · Qualification de prospects','Transcription · Synthèse vocale · Comparaison de modèles','Audit GEO · Analyse des sources · Rapports d’agence','Conservation des preuves · Vérification · Accompagnement des victimes','Tests défensifs · Guides de protection · Formation développeurs','Recherche · Politiques de gouvernance · Coopération sectorielle','Prévention des arnaques · Vérification indépendante · Assistance clients','Découverte de parfums · Échantillons · Boutique spécialisée','Identité des agents · Autorisations déléguées · API de paiement','Suivi des transactions · Contrôles de dépense · Validation humaine'],
+'de': ['Wissensdatenbank · Berechtigungsprüfung · Sicherheitsberatung','Buchungen · Kundenservice · Lead-Qualifizierung','Transkription · Sprachsynthese · Modellvergleich','GEO-Audit · Quellenanalyse · Agenturberichte','Beweissicherung · Überprüfung · Unterstützung Betroffener','Defensive Tests · Schutzleitfäden · Entwicklerschulung','Forschung · Governance-Richtlinien · Branchenkooperation','Betrugsprävention · Unabhängige Überprüfung · Kundenhilfe','Duftentdeckung · Probenservice · Spezialshop','Agentenidentität · Delegierte Befugnisse · Zahlungs-API','Transaktionsüberwachung · Ausgabenkontrollen · Menschliche Freigabe'],
+'es': ['Base de conocimiento · Revisión de permisos · Asistencia de seguridad','Reservas · Atención al cliente · Cualificación de prospectos','Transcripción · Síntesis de voz · Comparación de modelos','Auditoría GEO · Análisis de fuentes · Informes de agencia','Conservación de pruebas · Verificación · Apoyo a víctimas','Pruebas defensivas · Guías de protección · Formación de desarrolladores','Investigación · Políticas de gobernanza · Cooperación sectorial','Prevención de estafas · Verificación independiente · Atención al cliente','Descubrimiento de perfumes · Muestras · Tienda especializada','Identidad de agentes · Permisos delegados · API de pagos','Seguimiento de transacciones · Controles de gasto · Aprobación humana']}

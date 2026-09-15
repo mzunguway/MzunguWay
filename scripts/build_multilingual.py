@@ -5,7 +5,7 @@ from urllib.parse import quote
 from datetime import date
 import json, re, xml.etree.ElementTree as ET
 import generate_domain_pages as base
-from locales import LANGUAGES, UI, COPY, CATEGORIES
+from locales import LANGUAGES, UI, COPY, CATEGORIES, USE_ROWS
 ROOT=base.ROOT
 ORIGIN='https://mzunguway.com'
 FEATURED=('arabicvoiceagent.com','agentpaymentrisk.com','citationreadiness.com')
@@ -35,21 +35,27 @@ def actions(d,l):
 
 def header(l,route):
     u=UI[l]
-    links=''.join(f'<a href="{path(l)}#{key}">{u[key]}</a>' for key in ['domains','bundles','process'])+f'<a href="{path(l,"contact/")}">{u["contact"]}</a>'
-    langs=''.join(f'<a href="{path(code,route)}" lang="{code}" hreflang="{code}" {"aria-current=page" if code==l else ""}>{label}</a>' for code,label in LANGUAGES.items())
+    links=''.join(f'<a href="{path(l)}#{key}">{u[key]}</a>' for key in ['studio','domains','bundles','process'])+f'<a href="{path(l,"contact/")}">{u["contact"]}</a>'
+    langs=''.join(f'<a href="{path(code,route)}" lang="{code}" hreflang="{code}" {"aria-current=page" if code==l else ""} aria-label="{label}">{code.upper()}</a>' for code,label in LANGUAGES.items())
     return f'''<header class="site-header"><div class="wrap"><nav class="navbar" aria-label="{u['menu']}"><a class="brand" href="{path(l)}" aria-label="MzunguWay"><span class="brand-window"><img src="/assets/mzunguway-original.jpg" alt="MzunguWay" width="1448" height="1086"></span></a><button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="{u['menu']}"><span></span><span></span><span></span></button><div class="navlinks" id="mainNav">{links}</div></nav><nav class="language-switch" aria-label="{u['language']}">{langs}</nav></div></header>'''
 
 def alternates(route):
     return ''.join(f'<link rel="alternate" hreflang="{l}" href="{ORIGIN}{path(l,route)}">' for l in LANGUAGES)+f'<link rel="alternate" hreflang="x-default" href="{ORIGIN}/{route}">'
 
+def hero_logo(source):
+    return re.sub(r'<img class="identity-lockup original-lockup"[^>]*>', '<div class="hero-logo-window"><img src="/assets/mzunguway-original.jpg" alt="MzunguWay — Domain Naming Studio" width="1448" height="1086" fetchpriority="high"></div><p class="hero-logo-tagline">Ideas <span>—</span> Names <span>—</span> Opportunities</p>', source)
+
 def shell(l,route,title,desc,body):
-    u=UI[l]; url=ORIGIN+path(l,route)
+    u=UI[l]; url=ORIGIN+path(l,route); body=hero_logo(body)
     schema=json.dumps({'@context':'https://schema.org','@type':'WebPage','name':title,'description':desc,'url':url,'inLanguage':l},ensure_ascii=False).replace('</','<\\/')
-    return f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} — MzunguWay</title><meta name="description" content="{e(desc)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}">{alternates(route)}<meta property="og:title" content="{e(title)} — MzunguWay"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{url}"><meta property="og:type" content="website"><meta property="og:image" content="{ORIGIN}/og-card.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#F5F2EA"><link rel="icon" href="/brand-symbol.svg"><link rel="stylesheet" href="/styles.css?v=13"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Sora:wght@500;600;700&amp;display=swap" rel="stylesheet"><script type="application/ld+json">{schema}</script></head><body><a class="skip-link" href="#main">{u['skip']}</a>{header(l,route)}<main id="main">{body}</main><footer><div class="wrap foot"><span>© {date.today().year} MzunguWay. {u['rights']}</span><a href="mailto:hello@mzunguway.com">hello@mzunguway.com</a></div></footer><script src="/assets/ui.js?v=13" defer></script><script src="/app.js?v=13" defer></script></body></html>'''
+    return f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} — MzunguWay</title><meta name="description" content="{e(desc)}"><meta name="robots" content="index,follow"><link rel="canonical" href="{url}">{alternates(route)}<meta property="og:title" content="{e(title)} — MzunguWay"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{url}"><meta property="og:type" content="website"><meta property="og:image" content="{ORIGIN}/og-card.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#F5F2EA"><link rel="icon" href="/brand-symbol.svg"><link rel="stylesheet" href="/styles.css?v=14"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Sora:wght@500;600;700&amp;display=swap" rel="stylesheet"><script type="application/ld+json">{schema}</script></head><body><a class="skip-link" href="#main">{u['skip']}</a>{header(l,route)}<main id="main">{body}</main><footer><div class="wrap foot"><span>© {date.today().year} MzunguWay. {u['rights']}</span><a href="mailto:hello@mzunguway.com">hello@mzunguway.com</a></div></footer><script src="/assets/ui.js?v=14" defer></script><script src="/app.js?v=14" defer></script></body></html>'''
+
+def uses(d,l):
+    return ' · '.join(d['uses']) if l=='en' else USE_ROWS[l][base.DOMAINS.index(d)]
 
 def card(d,l):
     u=UI[l]; c=copy(d,l); badge=f'<span class="selection-badge">{u["featured"]}</span>' if d['name'] in FEATURED else ''
-    return f'''<article class="domain" data-category="{e(cat(d,l))}" data-featured="{str(d['name'] in FEATURED).lower()}"><div class="domain-cat">{e(cat(d,l))} {badge}</div><h3 class="domain-name"><a href="{path(l,'domains/'+d['slug']+'/')}">{d['name']}</a></h3><p class="domain-desc">{e(c['tagline'])}</p><div class="domain-actions">{actions(d,l)}<a class="text-link" href="{path(l,'domains/'+d['slug']+'/')}">{u['view']} →</a></div></article>'''
+    return f'''<article class="domain" data-category="{e(cat(d,l))}" data-featured="{str(d['name'] in FEATURED).lower()}"><div class="domain-cat">{e(cat(d,l))} {badge}</div><h3 class="domain-name"><a href="{path(l,'domains/'+d['slug']+'/')}">{d['name']}</a></h3><p class="domain-desc">{e(c['tagline'])}</p><div class="card-usecase"><strong>{u['use_cases']}</strong><p>{e(uses(d,l))}</p></div><details class="card-concept"><summary>{u['concept']}</summary><p>{e(c['concept'])}</p></details><div class="domain-actions">{actions(d,l)}<a class="text-link" href="{path(l,'domains/'+d['slug']+'/')}">{u['view']} →</a></div></article>'''
 
 def bundles(l):
     u=UI[l]; cards=[]
@@ -67,11 +73,13 @@ def home(l):
     body+=f'<section id="process"><div class="wrap"><div class="section-head"><h2>{u["process_title"]}</h2></div><ol class="workflow-list">'+''.join(f'<li>{u["step"+str(i)]}</li>' for i in range(1,5))+'</ol></div></section>'
     body+=f'<section id="faq"><div class="wrap"><h2>{u["faq"]}</h2><div class="faq-list">'+''.join(f'<details><summary>{u[q]}</summary><p>{u[a]}</p></details>' for q,a in [('qprice','aprice'),('qinclude','boundary'),('qtime','atime'),('qbundle','bundle_note')])+'</div></div></section>'
     body+=f'<section id="studio"><div class="wrap"><h2>{u["studio"]}</h2><p class="lead">{u["studio_text"]}</p></div></section><section id="spirit"><div class="wrap"><div class="kicker">{u["spirit"]}</div><h2>{u["spirit_title"]}</h2><p class="lead">{u["spirit_text"]}</p></div></section><section id="contact" class="contact-section"><div class="wrap"><h2>{u["form_title"]}</h2><a class="btn primary" href="{path(l,"contact/")}">{u["offer"]}</a></div></section>'
+    studio=re.search(r'<section id="studio">.*?</section>',body,re.S).group()
+    body=body.replace(studio,'').replace('<section id="domains">',studio+'<section id="domains">')
     return shell(l,'',u['hero'],u['intro'],body)
 
 def detail(d,l):
     u=UI[l]; c=copy(d,l); route='domains/'+d['slug']+'/'
-    body=f'''<section class="domain-page-hero"><div class="wrap"><a class="text-link" href="{path(l)}#domains">← {u['back']}</a><div class="kicker">{e(cat(d,l))}</div><h1 class="domain-display">{d['name']}</h1><p class="lead">{e(c['tagline'])}</p>{actions(d,l)}<p class="market-note">{u['market_note'] if d['afternic'] else u['private_note']}</p></div></section><section class="detail-body"><div class="wrap"><div class="detail-content-grid"><div class="detail-stack"><article class="detail-section"><h2>{u['why']}</h2><p>{e(c['why'])}</p><h3>{u['tradeoff']}</h3><p>{e(c['tradeoff'])}</p></article><article class="detail-section"><h2>{u['buyers']}</h2><p>{e(c['buyers'])}</p></article></div><div class="detail-stack"><article class="detail-section"><h2>{u['concept']}</h2><p>{e(c['concept'])}</p><h3>{u['only']}</h3><p>{u['boundary']}</p></article></div></div><div class="domain-closing"><h2>{u['form_title']}</h2>{actions(d,l)}</div></div></section>'''
+    body=f'''<section class="domain-page-hero"><div class="wrap"><a class="text-link" href="{path(l)}#domains">← {u['back']}</a><div class="kicker">{e(cat(d,l))}</div><h1 class="domain-display">{d['name']}</h1><p class="lead">{e(c['tagline'])}</p>{actions(d,l)}<p class="market-note">{u['market_note'] if d['afternic'] else u['private_note']}</p></div></section><section class="detail-body"><div class="wrap"><div class="detail-content-grid"><div class="detail-stack"><article class="detail-section"><h2>{u['why']}</h2><p>{e(c['why'])}</p></article><article class="detail-section"><h2>{u['buyers']}</h2><p>{e(c['buyers'])}</p></article></div><div class="detail-stack"><article class="detail-section"><h2>{u['concept']}</h2><p>{e(c['concept'])}</p><h3>{u['use_cases']}</h3><p>{e(uses(d,l))}</p><h3>{u['only']}</h3><p>{u['boundary']}</p></article></div></div><div class="domain-closing"><h2>{u['form_title']}</h2>{actions(d,l)}</div></div></section>'''
     relevant=[(b,k) for b,k in zip(base.BUNDLES,BUNDLE_KEYS) if d['name'] in dict(b['members'])]
     if relevant: body+=f'<div class="wrap"><a class="text-link" href="{path(l)}#bundle-{relevant[0][0]["slug"]}">{u["bundles"]} →</a></div>'
     return shell(l,route,d['name']+' | '+u['only'],c['tagline'],body)
@@ -91,13 +99,16 @@ def write(route,source):
     dest=ROOT/route/'index.html';dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(source,encoding='utf8')
 
 def patch_en(source,route):
+    source=hero_logo(source)
+    source=re.sub(r'<details class="naming-consideration">.*?</details>', '',source,flags=re.S)
+    source=source.replace('MzunguWay is not an official partner.', '').replace('MzunguWay is not an official marketplace partner.', '')
     source=re.sub(r'<header\b.*?</header>',lambda m:header('en',route),source,flags=re.S)
     source=re.sub(r'<link rel="alternate"[^>]*>','',source)
     source=source.replace('</head>',alternates(route)+'</head>')
     source=re.sub(r'<script src="/assets/ui.js[^"]*" defer></script>', '', source)
-    if '/app.js' not in source: source=source.replace('</body>', '<script src="/app.js?v=13" defer></script></body>')
-    source=source.replace('<script src="/app.js', '<script src="/assets/ui.js?v=13" defer></script><script src="/app.js')
-    source=re.sub(r'(/(?:styles.css|app.js))\?v=\d+',r'\1?v=13',source)
+    if '/app.js' not in source: source=source.replace('</body>', '<script src="/app.js?v=14" defer></script></body>')
+    source=source.replace('<script src="/app.js', '<script src="/assets/ui.js?v=14" defer></script><script src="/app.js')
+    source=re.sub(r'(/(?:styles.css|app.js))\?v=\d+',r'\1?v=14',source)
     return source
 
 def main():
@@ -114,7 +125,8 @@ def main():
     story=[]
     for sec in ['studio','spirit']:
         m=re.search(r'<section id="'+sec+r'".*?</section>',source,re.S);story.append(m[0]);source=source.replace(m[0],'')
-    source=source.replace('<section id="contact"',''.join(story)+'<section id="contact"')
+    source=source.replace('<section id="domains">',story[0]+'<section id="domains">')
+    source=source.replace('<section id="contact"',story[1]+'<section id="contact"')
     source=re.sub(r'href="mailto:hello@mzunguway.com\?subject=Domain%20enquiry[^\"]*"','href="/contact/"',source)
     source=source.replace('Start a private enquiry','Make an offer')
     (ROOT/'index.html').write_text(source,encoding='utf8')

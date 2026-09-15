@@ -45,7 +45,7 @@ class SiteTests(unittest.TestCase):
             self.assertTrue(meta['og:title'])
             self.assertTrue(meta['og:description'])
             self.assertIn(f'https://mzunguway.com/domains/{d["slug"]}/', source)
-            for label in ['Why this domain', 'Built for', 'Imagine', 'Ideal for', 'Why it matters', 'Illustrative concept only']:
+            for label in ['Why this domain', 'Built for', 'Imagine', 'Ideal for', 'Why it matters', 'Business concept to develop']:
                 self.assertIn(label, source)
             self.assertEqual(source.count('>Make an Offer</a>'), 4)
         self.assertEqual(len(descriptions), 11)
