@@ -23,6 +23,49 @@ if (toggle && nav) {
 }
 const grid = document.getElementById('domainGrid');
 const filters = document.getElementById('filters');
+
+// Newly acquired domains. Kept here as a minimal additive layer so the validated static pages remain untouched.
+const newDomains = {
+  en: [
+    {name:'glucosehack.com',category:'Health & Wellness',desc:'A memorable name for glucose-aware habits and metabolic insight.',uses:'Glucose education · Meal experiments · Habit tracking · Metabolic wellness',concept:'A consumer platform that helps users organize glucose readings, meals, activity and notes into understandable experiments and trends, without replacing medical advice.'},
+    {name:'instantpaylayer.com',category:'Payments Infrastructure',desc:'A strong infrastructure name for instant-payment orchestration.',uses:'Instant payments · API orchestration · Routing · Settlement workflows',concept:'An API layer that connects apps to multiple instant-payment rails and normalizes requests, routing, status updates and operational controls.'},
+    {name:'kychuman.com',category:'Identity & Trust',desc:'A direct name for human verification in KYC workflows.',uses:'Human verification · KYC review · Identity checks · Compliance workflows',concept:'An identity-verification layer that helps teams confirm a real human is behind an onboarding or high-risk action, combining checks, review queues and audit trails.'}
+  ],
+  fr: [
+    {name:'glucosehack.com',category:'Santé & bien-être',desc:'Un nom mémorable pour les habitudes liées au glucose et les données métaboliques.',uses:'Éducation au glucose · Expériences alimentaires · Suivi des habitudes · Bien-être métabolique',concept:'Une plateforme grand public pour organiser mesures de glucose, repas, activité et notes en expériences et tendances compréhensibles, sans se substituer à un avis médical.'},
+    {name:'instantpaylayer.com',category:'Infrastructure de paiement',desc:'Un nom d’infrastructure clair pour l’orchestration des paiements instantanés.',uses:'Paiements instantanés · Orchestration API · Routage · Flux de règlement',concept:'Une couche API reliant des applications à plusieurs rails de paiement instantané, avec normalisation des requêtes, du routage, des statuts et des contrôles opérationnels.'},
+    {name:'kychuman.com',category:'Identité & confiance',desc:'Un nom direct pour la vérification humaine dans les parcours KYC.',uses:'Vérification humaine · Revue KYC · Contrôles d’identité · Conformité',concept:'Une couche de vérification d’identité aidant les équipes à confirmer qu’une personne réelle se trouve derrière une inscription ou une action sensible, avec contrôles, files de revue et piste d’audit.'}
+  ],
+  de: [
+    {name:'glucosehack.com',category:'Gesundheit & Wellness',desc:'Ein einprägsamer Name für glucosebewusste Gewohnheiten und metabolische Einblicke.',uses:'Glukose-Wissen · Mahlzeiten-Experimente · Gewohnheitstracking · Metabolisches Wohlbefinden',concept:'Eine Verbraucherplattform, die Glukosewerte, Mahlzeiten, Aktivität und Notizen zu verständlichen Experimenten und Trends zusammenführt, ohne medizinische Beratung zu ersetzen.'},
+    {name:'instantpaylayer.com',category:'Zahlungsinfrastruktur',desc:'Ein klarer Infrastrukturname für die Orchestrierung von Echtzeitzahlungen.',uses:'Echtzeitzahlungen · API-Orchestrierung · Routing · Abwicklungsprozesse',concept:'Eine API-Schicht, die Anwendungen mit mehreren Echtzeit-Zahlungswegen verbindet und Anfragen, Routing, Statusmeldungen und operative Kontrollen vereinheitlicht.'},
+    {name:'kychuman.com',category:'Identität & Vertrauen',desc:'Ein direkter Name für menschliche Verifikation in KYC-Prozessen.',uses:'Menschliche Verifikation · KYC-Prüfung · Identitätschecks · Compliance-Workflows',concept:'Eine Identitätsprüfungsschicht, mit der Teams bestätigen können, dass hinter einem Onboarding oder einer risikoreichen Aktion eine reale Person steht, inklusive Prüfungen, Review-Warteschlangen und Audit-Trail.'}
+  ],
+  es: [
+    {name:'glucosehack.com',category:'Salud & bienestar',desc:'Un nombre memorable para hábitos conscientes de la glucosa y conocimiento metabólico.',uses:'Educación sobre glucosa · Experimentos con comidas · Seguimiento de hábitos · Bienestar metabólico',concept:'Una plataforma de consumo que organiza lecturas de glucosa, comidas, actividad y notas en experimentos y tendencias comprensibles, sin sustituir el consejo médico.'},
+    {name:'instantpaylayer.com',category:'Infraestructura de pagos',desc:'Un nombre de infraestructura sólido para orquestar pagos instantáneos.',uses:'Pagos instantáneos · Orquestación API · Enrutamiento · Flujos de liquidación',concept:'Una capa API que conecta aplicaciones con múltiples redes de pago instantáneo y normaliza solicitudes, enrutamiento, estados y controles operativos.'},
+    {name:'kychuman.com',category:'Identidad & confianza',desc:'Un nombre directo para la verificación humana en flujos KYC.',uses:'Verificación humana · Revisión KYC · Controles de identidad · Cumplimiento',concept:'Una capa de verificación de identidad que ayuda a confirmar que una persona real está detrás de un alta o una acción de alto riesgo, combinando controles, colas de revisión y trazabilidad.'}
+  ]
+};
+
+if (grid) {
+  (newDomains[lang] || newDomains.en).forEach(d => {
+    if (grid.querySelector(`[data-domain="${d.name}"]`)) return;
+    const card = document.createElement('article');
+    card.className = 'domain';
+    card.dataset.category = d.category;
+    card.dataset.featured = 'false';
+    card.dataset.domain = d.name;
+    card.innerHTML = `<div class="domain-cat">${d.category}</div><h3 class="domain-name">${d.name}</h3><p class="domain-desc">${d.desc}</p><div class="card-usecase"><strong>${ui.use_cases || 'Use cases'}</strong><p>${d.uses}</p></div><details class="card-concept"><summary>${ui.concept || 'What you could build'}</summary><p>${d.concept}</p></details><div class="domain-actions"><div class="detail-actions"><a class="btn primary" href="/contact/?domain=${encodeURIComponent(d.name)}">${ui.offer || 'Make an offer'}</a></div></div>`;
+    grid.appendChild(card);
+  });
+  const total = grid.querySelectorAll('[data-category]').length;
+  const badge = document.querySelector('.portfolio-badge');
+  if (badge) badge.textContent = badge.textContent.replace(/^\d+/, String(total));
+  const count = document.getElementById('resultCount');
+  if (count) count.textContent = total + ' ' + (ui.shown || 'domains shown');
+}
+
 if (grid && filters) {
   const cards = [...grid.querySelectorAll('[data-category]')];
   const groups = [{key:'all',label:ui.all},{key:'featured',label:ui.featured}, ...[...new Set(cards.map(c=>c.dataset.category))].map(label=>({key:label,label}))];
