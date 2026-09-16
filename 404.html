@@ -60,5 +60,8 @@
     </div>
   </footer>
   <script src="/app.js?v=7" defer></script>
+<script>
+(function(){const p=location.pathname,lang=p.startsWith('/fr/')?'fr':p.startsWith('/sw/')?'sw':p.startsWith('/ja/')?'ja':'en';const t={en:{title:'Page not found — MzunguWay',skip:'Skip to content',h:'This path wandered off.',lead:'The page you requested does not exist, but the MzunguWay portfolio is exactly where you left it.',go:'Explore the portfolio',home:'Return home'},fr:{title:'Page introuvable — MzunguWay',skip:'Aller au contenu',h:'Cette page est introuvable.',lead:'La page demandée n’existe pas. Retrouvez le portefeuille MzunguWay.',go:'Explorer le portefeuille',home:'Retour à l’accueil'},sw:{title:'Ukurasa haujapatikana — MzunguWay',skip:'Nenda kwenye maudhui',h:'Ukurasa huu haujapatikana.',lead:'Ukurasa uliotafuta haupo. Rudi kwenye portfolio ya MzunguWay.',go:'Gundua portfolio',home:'Rudi mwanzo'},ja:{title:'ページが見つかりません — MzunguWay',skip:'本文へ移動',h:'ページが見つかりません。',lead:'お探しのページは存在しません。MzunguWayのポートフォリオへお戻りください。',go:'ポートフォリオを見る',home:'ホームへ戻る'}}[lang];document.documentElement.lang=lang;document.title=t.title;const a=document.querySelector('.skip-link');if(a)a.textContent=t.skip;const h=document.querySelector('.error-page h1');if(h)h.textContent=t.h;const lead=document.querySelector('.error-page .lead');if(lead)lead.textContent=t.lead;const b=[...document.querySelectorAll('.error-page .btn')],pref=lang==='en'?'':'/'+lang;if(b[0]){b[0].textContent=t.go;b[0].href=pref+'/#domains'}if(b[1]){b[1].textContent=t.home;b[1].href=pref+'/'}})();
+</script>
 </body>
 </html>

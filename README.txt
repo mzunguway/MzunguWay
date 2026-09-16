@@ -63,7 +63,7 @@ The multilingual build calls the English generator, then generates all locales.
 Do not run only generate_domain_pages.py for publication: that omits locale links.
 Reviewed localized copy: scripts/locales.py. Layouts: scripts/build_multilingual.py.
 English editorial detail remains in domain_editorial.py and generate_domain_pages.py.
-72 static pages: English, French, German and Spanish, with reciprocal hreflang.
+Production locales: English, French, Kiswahili and Japanese, with reciprocal hreflang on the 84 canonical SEO routes.
 Three highlighted names in one eleven-name catalogue; existing holdings unchanged.
 Contact forms compose an email locally; the visitor must send it from their mail
 application. No backend, delivery claim, analytics or third-party form service is
