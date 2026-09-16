@@ -1,6 +1,45 @@
 // Localized progressive enhancement. Inventory and translated content are static HTML.
 const lang = document.documentElement.lang || 'en';
 const ui = (window.MW_UI || {})[lang] || {};
+
+// Canonical locale switcher: EN / FR / SW / JA only.
+// Preserve the current route where it exists in every locale; SW has no collections, so collections fall back to /sw/.
+(function normalizeLanguageSwitcher(){
+  const switcher = document.querySelector('.language-switch');
+  if (!switcher) return;
+  const supported = [
+    {code:'en', label:'English'},
+    {code:'fr', label:'Français'},
+    {code:'sw', label:'Kiswahili'},
+    {code:'ja', label:'日本語'}
+  ];
+  let route = location.pathname || '/';
+  let current = 'en';
+  for (const code of ['fr','sw','ja']) {
+    const prefix = '/' + code;
+    if (route === prefix || route.startsWith(prefix + '/')) {
+      current = code;
+      route = route.slice(prefix.length) || '/';
+      break;
+    }
+  }
+  if (!route.startsWith('/')) route = '/' + route;
+  const hrefFor = code => {
+    if (code === 'sw' && route.startsWith('/collections/')) return '/sw/';
+    return code === 'en' ? route : '/' + code + (route === '/' ? '/' : route);
+  };
+  switcher.replaceChildren(...supported.map(({code,label}) => {
+    const a = document.createElement('a');
+    a.href = hrefFor(code);
+    a.lang = code;
+    a.hreflang = code;
+    a.textContent = code.toUpperCase();
+    a.setAttribute('aria-label', label);
+    if (code === current) a.setAttribute('aria-current','page');
+    return a;
+  }));
+})();
+
 document.querySelectorAll('[data-current-year], #year').forEach(n => { n.textContent = new Date().getFullYear(); });
 const toggle = document.getElementById('menuToggle');
 const nav = document.getElementById('mainNav');
