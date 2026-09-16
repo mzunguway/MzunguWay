@@ -1288,3 +1288,54 @@ html {scroll-padding-top:140px}
 .card-usecase>p {margin:8px 0 16px;font-size:14px;line-height:1.65;color:#4a5661}
 .language-switch a {min-width:38px;text-align:center;font-weight:700}
 @media(max-width:600px){.hero-logo-tagline{font-size:11px;letter-spacing:.08em}.hero .identity{min-height:280px}}
+
+/* ── Domain price display ─────────────────────────── */
+.domain-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-tint, rgba(0,0,0,0.03));
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+.price-main {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink, #111);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.price-from {
+  font-size: 0.8rem;
+  color: var(--ink-muted, #666);
+  white-space: nowrap;
+}
+
+/* ── Bundle price display ─────────────────────────── */
+.bundle-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+  flex-wrap: wrap;
+}
+.bundle-total {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink, #111);
+  letter-spacing: -0.02em;
+}
+.bundle-saving {
+  font-size: 0.8rem;
+  color: var(--ink-muted, #666);
+}
+.bundle-ideal {
+  font-size: 0.85rem;
+  color: var(--ink-muted, #666);
+  margin-bottom: 1rem;
+}
+.bundle-ideal strong {
+  color: var(--ink, #111);
+}
