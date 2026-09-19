@@ -60,6 +60,16 @@ if (toggle && nav) {
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true'){closeMenu();toggle.focus();} });
   window.addEventListener('resize', () => { if(window.innerWidth > 820) closeMenu(); });
 }
+
+// Visual and acquisition improvements are isolated in a small override stylesheet.
+if (!document.querySelector('link[data-mw-improvements]')) {
+  const improvementStyles = document.createElement('link');
+  improvementStyles.rel = 'stylesheet';
+  improvementStyles.href = '/improvements.css?v=1';
+  improvementStyles.dataset.mwImprovements = 'true';
+  document.head.appendChild(improvementStyles);
+}
+
 const grid = document.getElementById('domainGrid');
 const filters = document.getElementById('filters');
 
@@ -77,18 +87,85 @@ const newDomains = {
   ],
 };
 
+const featuredDomainNames = new Set(['glucosehack.com', 'instantpaylayer.com', 'kychuman.com']);
+const afternicListings = {
+  'agentsecurity.help': 'https://www.afternic.com/domain/agentsecurity.help',
+  'arabicvoiceagent.com': 'https://www.afternic.com/domain/arabicvoiceagent.com',
+  'arabicvoice.xyz': 'https://www.afternic.com/domain/arabicvoice.xyz',
+  'citationreadiness.com': 'https://www.afternic.com/domain/citationreadiness.com',
+  'deepfakes.help': 'https://www.afternic.com/domain/deepfakes.help',
+  'promptinjection.help': 'https://www.afternic.com/domain/promptinjection.help',
+  'responsibleagents.org': 'https://www.afternic.com/domain/responsibleagents.org',
+  'voicefraud.help': 'https://www.afternic.com/domain/voicefraud.help'
+};
+function afternicUrl(domainName) {
+  return afternicListings[domainName.toLowerCase()] || `https://www.afternic.com/search?q=${encodeURIComponent(domainName)}`;
+}
+function domainOfferUrl(domainName) {
+  return `/contact/?domain=${encodeURIComponent(domainName)}`;
+}
+function addFeaturedBadge(card, domainName) {
+  card.querySelectorAll('.selection-badge, .badge-featured').forEach(node => node.remove());
+  card.dataset.featured = featuredDomainNames.has(domainName.toLowerCase()) ? 'true' : 'false';
+  if (!featuredDomainNames.has(domainName.toLowerCase())) return;
+  const category = card.querySelector('.domain-cat');
+  if (!category) return;
+  const badge = document.createElement('span');
+  badge.className = 'badge-featured';
+  badge.textContent = 'Featured';
+  category.after(badge);
+}
+function normalizeActionSet(container, domainName) {
+  if (!container || !domainName) return;
+  let offer = [...container.querySelectorAll('a')].find(a => a.href.includes('/contact/?domain='));
+  if (!offer) {
+    offer = document.createElement('a');
+    offer.href = domainOfferUrl(domainName);
+    offer.textContent = lang === 'en' ? 'Make an offer' : (ui.offer || 'Make an offer');
+    container.appendChild(offer);
+  }
+  offer.classList.add('btn', 'btn-outline');
+  offer.classList.remove('primary', 'btn-primary', 'marketplace');
+
+  let marketplace = [...container.querySelectorAll('a')].find(a => a.href.includes('afternic.com'));
+  if (!marketplace) {
+    marketplace = document.createElement('a');
+    container.insertBefore(marketplace, offer);
+  }
+  marketplace.href = afternicUrl(domainName);
+  marketplace.target = '_blank';
+  marketplace.rel = 'noopener noreferrer';
+  marketplace.textContent = 'View on Afternic';
+  marketplace.classList.add('btn', 'btn-primary');
+  marketplace.classList.remove('primary', 'btn-outline', 'marketplace');
+  if (marketplace !== container.firstElementChild) container.insertBefore(marketplace, container.firstElementChild);
+}
+
 if (grid) {
   (newDomains[lang] || newDomains.en).forEach(d => {
     if (grid.querySelector(`[data-domain="${d.name}"]`)) return;
     const card = document.createElement('article');
     card.className = 'domain';
     card.dataset.category = d.category;
-    card.dataset.featured = 'false';
+    card.dataset.sector = d.category;
+    card.dataset.featured = 'true';
     card.dataset.domain = d.name;
-    card.innerHTML = `<div class="domain-cat">${d.category}</div><h3 class="domain-name">${d.name}</h3><p class="domain-desc">${d.desc}</p><div class="card-usecase"><strong>${ui.use_cases || 'Use cases'}</strong><p>${d.uses}</p></div><details class="card-concept"><summary>${ui.concept || 'What you could build'}</summary><p>${d.concept}</p></details><div class="domain-actions"><div class="detail-actions"><a class="btn primary" href="/contact/?domain=${encodeURIComponent(d.name)}">${ui.offer || 'Make an offer'}</a></div></div>`;
+    card.innerHTML = `<div class="domain-cat">${d.category}</div><span class="badge-featured">Featured</span><h3 class="domain-name">${d.name}</h3><p class="domain-desc">${d.desc}</p><div class="card-usecase"><strong>${ui.use_cases || 'Use cases'}</strong><p>${d.uses}</p></div><details class="card-concept"><summary>${ui.concept || 'What you could build'}</summary><p>${d.concept}</p></details><div class="domain-actions"><div class="detail-actions"><a class="btn btn-primary" href="${afternicUrl(d.name)}" target="_blank" rel="noopener noreferrer">View on Afternic</a><a class="btn btn-outline" href="${domainOfferUrl(d.name)}">${lang === 'en' ? 'Make an offer' : (ui.offer || 'Make an offer')}</a></div></div>`;
     grid.appendChild(card);
   });
-  const total = grid.querySelectorAll('[data-category]').length;
+
+  const cards = [...grid.querySelectorAll('.domain[data-category]')];
+  cards.forEach(card => {
+    const name = (card.dataset.domain || card.querySelector('.domain-name')?.textContent || '').trim().toLowerCase();
+    card.dataset.domain = name;
+    card.dataset.sector = card.dataset.category || card.dataset.sector || '';
+    addFeaturedBadge(card, name);
+    normalizeActionSet(card.querySelector('.domain-actions .detail-actions'), name);
+    const detail = card.querySelector('.domain-actions > .text-link, .domain-actions > a:not(.btn)');
+    if (detail) detail.classList.add('btn-link');
+  });
+
+  const total = cards.length;
   const badge = document.querySelector('.portfolio-badge');
   if (badge) badge.textContent = badge.textContent.replace(/^\d+/, String(total));
   const count = document.getElementById('resultCount');
@@ -96,17 +173,86 @@ if (grid) {
 }
 
 if (grid && filters) {
-  const cards = [...grid.querySelectorAll('[data-category]')];
-  const groups = [{key:'all',label:ui.all},{key:'featured',label:ui.featured}, ...[...new Set(cards.map(c=>c.dataset.category))].map(label=>({key:label,label}))];
-  groups.forEach((group,i) => {
-    const b=document.createElement('button'); b.type='button'; b.className='filter'+(i===0?' active':''); b.textContent=group.label; b.setAttribute('aria-pressed',String(i===0));
-    b.addEventListener('click',()=>{
-      filters.querySelectorAll('button').forEach(n=>{n.classList.toggle('active',n===b);n.setAttribute('aria-pressed',String(n===b));});
-      cards.forEach(c=>{c.hidden=!(group.key==='all'||(group.key==='featured'?c.dataset.featured==='true':c.dataset.category===group.key));});
-      document.getElementById('resultCount').textContent=cards.filter(c=>!c.hidden).length+' '+ui.shown;
-    }); filters.append(b);
-  }); filters.hidden=false;
+  const cards = [...grid.querySelectorAll('.domain[data-sector]')];
+  const sectors = [...new Set(cards.map(card => card.dataset.sector).filter(Boolean))];
+  filters.replaceChildren();
+  const groups = [{key:'all', label:ui.all || 'All'}, ...sectors.map(sector => ({key:sector, label:sector}))];
+  groups.forEach((group, i) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'filter' + (i === 0 ? ' active' : '');
+    button.textContent = group.label;
+    button.dataset.sectorFilter = group.key;
+    button.setAttribute('aria-pressed', String(i === 0));
+    button.addEventListener('click', () => {
+      filters.querySelectorAll('button').forEach(node => {
+        const active = node === button;
+        node.classList.toggle('active', active);
+        node.setAttribute('aria-pressed', String(active));
+      });
+      cards.forEach(card => { card.hidden = !(group.key === 'all' || card.dataset.sector === group.key); });
+      const shown = cards.filter(card => !card.hidden).length;
+      document.getElementById('resultCount').textContent = shown + ' ' + (ui.shown || 'domains shown');
+    });
+    filters.append(button);
+  });
+  filters.hidden = false;
 }
+
+// Keep the studio numbering but make it visually premium without changing its content structure.
+document.querySelectorAll('#studio .index').forEach(index => index.classList.add('studio-index'));
+
+// Standardize domain-page acquisition CTAs and add lightweight Product structured data.
+const domainDisplay = document.querySelector('.domain-display');
+if (domainDisplay) {
+  const domainName = domainDisplay.textContent.trim().toLowerCase();
+  const primaryActions = [
+    document.querySelector('.domain-page-copy .detail-actions'),
+    document.querySelector('.domain-closing .detail-actions'),
+    document.querySelector('.mobile-acquire .detail-actions')
+  ].filter(Boolean);
+  primaryActions.forEach(actions => normalizeActionSet(actions, domainName));
+
+  const category = document.querySelector('.domain-kicker-row .kicker')?.textContent.trim() || 'Premium';
+  const pageDescription = document.querySelector('.domain-page-desc')?.textContent.trim() || `${domainName} is available for acquisition through MzunguWay.`;
+  document.title = `${domainName} – ${category} Domain for Sale | MzunguWay`;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) metaDescription.content = pageDescription.slice(0, 154);
+
+  if (!document.querySelector('script[data-mw-product-schema]')) {
+    const canonical = document.querySelector('link[rel="canonical"]')?.href || location.href;
+    const productSchema = document.createElement('script');
+    productSchema.type = 'application/ld+json';
+    productSchema.dataset.mwProductSchema = 'true';
+    productSchema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: domainName,
+      description: pageDescription.slice(0, 154),
+      url: canonical,
+      brand: {'@type': 'Brand', name: 'MzunguWay'},
+      offers: {
+        '@type': 'Offer',
+        url: afternicUrl(domainName),
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition'
+      }
+    });
+    document.head.appendChild(productSchema);
+  }
+}
+
+// Preserve intrinsic image dimensions where known and lazy-load only non-critical images.
+document.querySelectorAll('img').forEach(img => {
+  if (img.getAttribute('src')?.includes('/assets/mzunguway-original.jpg')) {
+    if (!img.hasAttribute('width')) img.setAttribute('width', '1448');
+    if (!img.hasAttribute('height')) img.setAttribute('height', '1086');
+  }
+  const critical = img.closest('.site-header, .hero, .domain-page-hero');
+  if (!critical && !img.hasAttribute('loading')) img.loading = 'lazy';
+  if (!img.hasAttribute('decoding')) img.decoding = 'async';
+});
+
 // Carry a draft's selected domain when switching languages; never carry personal data.
 const selected = new URLSearchParams(location.search).get('domain');
 if (selected) document.querySelectorAll('.language-switch a').forEach(a=>{const url=new URL(a.href);url.searchParams.set('domain',selected.slice(0,250));a.href=url.href;});
